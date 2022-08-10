@@ -1,0 +1,17 @@
+@import '../variables.scss';
+@import './body-right-top.scss';
+
+$img-size: 99px;
+
+#body-right-main{
+    border: 1px dashed brown;
+    width: 280px;
+    height: inherit;
+    padding: 15px 0 15px 7px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    @include right-top;
+}

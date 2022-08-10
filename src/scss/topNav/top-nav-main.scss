@@ -1,0 +1,126 @@
+@import '../variables.scss';
+$icon-height : 40px;
+
+@mixin grey-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $icon-height;
+    width: $icon-height;
+    border-radius: $icon-height;
+    background-color: $grey-normal-light;
+}
+
+@mixin hover-darker {
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        border-radius: inherit;
+        background-color: rgb(200, 200, 210, 0.25);
+    }
+}
+
+#top-nav-main{
+    height: 56px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px -5px $grey-normal;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .fb-logo{
+        height: 100%;
+        transform: scale(0.95);
+        margin-right: -10px;
+        cursor: pointer;
+    }
+
+    .icon{
+        position: relative;
+        flex-shrink: 0;
+        // overflow: hidden;
+        cursor: pointer;
+        @include grey-icon;
+
+        &:hover{
+            @include hover-darker;
+        }
+    }
+
+    .red-dot{
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        font-size: 40%;
+        right: -5%;
+        top: -10%;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        @include centering;
+    }
+
+    .messenger-icon.no-icon.pro-icon{
+       margin: 5px;
+       &:last-child{
+            margin-right: 20px;
+       }
+    }
+    .search-icon{
+        margin-right: auto;
+        overflow: hidden;
+        input{
+            display: none;
+        }
+    }
+
+    .search-icon.active{
+        width: 320px;
+        .ri{
+            position: absolute;
+            left: $icon-height / 2;
+            transform: translateX(-50%);
+        }
+        background-color: $grey-normal-lighter;
+        input{
+            width: calc(100% - 1.5 * $icon-height);
+            display: block;
+            position: absolute;
+            left: $icon-height;
+            outline: none;
+            border: none;
+            background-color: $grey-normal-lighter;
+        }
+        &::after{
+            width: 0;
+            height: 0;
+        }
+    }
+
+    .pro-icon{
+        position: relative;
+        margin-right: 20px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+        .ri{
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            right: 0;
+            bottom: 0;
+            box-shadow: inset 0 0 0 2px white;
+            border-radius: 50%;
+            font-weight: bold;
+            background-color: $grey-normal-light;
+        }
+    }
+}

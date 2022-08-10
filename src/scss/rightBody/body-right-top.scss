@@ -1,0 +1,12 @@
+@import '../variables.scss';
+
+@mixin right-top {
+    #body-right-top {
+            .head {
+                @include font-1(20px, black, normal);
+            }
+    
+            display: flex;
+            align-items: stretch;
+        }
+}

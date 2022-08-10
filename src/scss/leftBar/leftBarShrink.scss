@@ -1,0 +1,121 @@
+@import '../variables.scss';
+
+$left-bar-width: 60px;
+$rect-icon-height: 38px;
+$round-icon-size: 32px;
+$img-icon-size: 20px;
+$pad: 4px;
+
+
+@mixin iSize {
+    height: $img-icon-size;
+    width: $img-icon-size;
+}
+
+#left-bar-shrink{
+    width: $left-bar-width;
+    height: 100%;
+    background-color: white;
+    border-right: 1px solid $grey-normal-light;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px;
+
+    .icon{
+        @include centering;
+        margin: 4px 0;
+        cursor: pointer;
+        .ri {
+            @include iSize;
+        }
+        img {
+            @include round(24px);
+        }
+        &:hover {
+            background-color: $grey-normal-light;
+        }
+        p{
+            display: none;
+        }
+    }
+
+    .icon.active{
+        
+        &::before {
+            content: '';
+            width: 10px;
+            height: $rect-icon-height;
+            background-color: $fb-blue;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+    
+            position: absolute;
+            right: calc(100% + $pad);
+        }
+    }
+
+    .rect-icon {
+        position: relative;
+        height: $rect-icon-height;
+        width: calc(100%);
+        border-radius: 8px;
+
+        &:hover {
+            background-color: $grey-normal-light;
+        }
+    }
+
+    .round-icon{
+        position: relative;
+        background-color: $grey-normal-lighter;
+        @include round($round-icon-size);
+
+        .ri{
+            @include iSize;
+        }
+        img{
+            @include iSize;
+        }
+    }
+}
+
+@media screen and (min-width: 1160px) {
+    #left-bar-shrink{
+        width: 300px;
+        flex-shrink: 0;
+        background-color: $grey-blue-background;
+        .icon{
+            background-color: $grey-blue-background;
+            justify-content: flex-start;
+            align-items: center;
+            height: $rect-icon-height;
+            p {
+                display: block;
+                position: absolute;
+                margin: 0;
+                margin-left: $rect-icon-height ;
+                @include font-1();
+            }
+            width: calc(100%);
+            border-radius: 8px;
+            // background-color: white;
+
+            .ri, img{
+                position: absolute;
+                left: $rect-icon-height - $round-icon-size;
+            }
+        }
+        .round-icon{
+            p{
+                font-weight: bold;
+            }
+        }
+        // .round-icon{
+        //     background-color: $grey-normal-lighter;
+        //     @include round($round-icon-size);
+        // }
+
+    }
+}

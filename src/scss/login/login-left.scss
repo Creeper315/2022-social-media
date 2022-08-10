@@ -1,0 +1,79 @@
+@import './login.scss';
+
+@mixin border-1 {
+    // border: 1px solid red;
+    border-radius: 10px;
+}
+
+@mixin shadow-1 {
+    box-shadow: 0 0 0px grey;
+    transition: box-shadow 100ms linear;
+    &:hover{
+        box-shadow: 0 0 15px -3px rgb(157, 157, 157);
+    }
+}
+
+@mixin grid-1 {
+    display: grid;
+    grid-template-rows: 75% 1fr;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+
+    div:nth-child(1){
+        background-color: $grey-light;
+        @include centering;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+        .big-icon{
+            color: $fb-blue;
+            font-size: 50px;
+            transform:  rotate(45deg);
+        }
+    }
+
+    div:nth-child(2) {
+        @include centering;
+        @include font-1(18px, $grey-normal);
+    }
+}
+
+
+#login-left{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 30px;
+
+    .fb-logo{
+        height: 70px;
+        margin: -20px;
+        margin-bottom: -5px;
+    }
+    .recent{
+        @include font-1(26px, black)
+    }
+    .text{
+        @include font-1(15px, $grey-normal )
+    }
+
+    @include border-1;
+
+    .card{
+        width: 160px;
+        height: 206px;
+        @include border-1;
+        @include shadow-1;
+        @include grid-1
+    }
+
+    .card-contain{
+        display: flex;
+        gap: 20px;
+        margin-top: 25px;
+    }
+}

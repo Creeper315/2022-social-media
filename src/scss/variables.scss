@@ -1,0 +1,48 @@
+$fb-blue : #3b65ff;
+$fb-green: #42b72a;
+$fb-red: #f3425f;
+$fb-yellow: #f7b928;
+$grey-blue-background: #ebeff5;
+$grey-normal: #7b818d;
+$grey-normal-light:#e2e5ea;
+$grey-normal-lighter: #eaedf2;
+$grey-light: #f7f8f8;
+$font-1: Helvetica, Arial, sans-serif;
+
+@mixin centering {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin round($size) {
+    width: $size;
+    height: $size;
+    border-radius: $size;
+}
+
+@mixin shadow-light {
+    box-shadow: 0 1px 3px -1px $grey-normal;
+}
+
+@mixin my-border($br, $color) {
+    border-radius: $br;
+    border: 1px solid $color;
+}
+
+@mixin font-1($size: 16px, $color: black, $weight: normal) {
+    font-size: $size;
+    font-weight: $weight;
+    font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    color: $color;
+}
+
+@mixin hover-effect($color: $grey-normal-light, $delay: 80ms) {
+
+    transition: background-color $delay linear;
+
+    &:hover{
+        background-color: $color;
+        transition: none;
+    }
+}
