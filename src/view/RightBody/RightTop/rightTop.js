@@ -1,3 +1,5 @@
+import Card from './card';
+
 const pic1 =
     'https://scontent.fyvr1-1.fna.fbcdn.net/v/t45.1600-4/164626848_6235909007752_516491017779970169_n.jpg?stp=dst-jpg_p285x285&_nc_cat=1&ccb=1-7&_nc_sid=eaa83b&_nc_ohc=5qNIQLEQBvIAX_ZOe7C&tn=EHE-4NpF1YzgJER8&_nc_ht=scontent.fyvr1-1.fna&oh=00_AT90tgL4E27Rr_in1UP6TFjA5EI9Uz_hHQ8RjaxPoU_deg&oe=62F89FE4';
 const pic2 =
@@ -7,6 +9,12 @@ const RightTop = () => {
     return (
         <div id="body-right-top">
             <div className="head">Sponsored</div>
+            <Card imgSrc={pic1} h1="Some dummy text" txt="tong315.com" />
+            <Card
+                imgSrc={pic2}
+                h1="BMO NewStart Banking"
+                txt="bmo.com/newstart"
+            />
         </div>
     );
 };

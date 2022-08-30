@@ -1,0 +1,83 @@
+@import '../variables.scss';
+
+#sign-up-window{
+    position: fixed;
+    left: 0;
+    top: 0%;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    // @include red;
+    .mask{
+        width: inherit;
+        height: inherit;
+
+        background-color: rgb(100, 100, 100, 0.5);
+    }
+    .window{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        width: 400px;
+        height: 500px;
+        @include red;
+        background-color: $grey-normal-lighter;
+
+        .first-line{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 15px;
+            margin-bottom: 10px;
+            @include font-1(25px, black);
+            @include shadow-light;
+            .ri{
+                @include round(24px);
+                @include centering;
+                @include hover-effect;
+                color: $grey-normal;
+            }
+        }
+        .row{
+            position: relative;
+            @include red;
+            height: 55px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            // justify-content: stretch;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+            margin: 5px 0;
+            input{
+                background-color: $grey-blue-background;
+                border: 1px solid $grey-normal;
+                border-radius: 5px;
+                outline: none;
+                height: 65%;
+                display: inline-block;
+                flex-shrink: 1;
+            }
+        }
+        .button{
+            width: 150px;
+            height: 40px;
+            border-radius: 20px;
+            @include font-1(20px, white, bold);
+            @include centering;
+            @include shadow-light;
+            margin-top: 20px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+
+            background-color: $fb-green;
+            border:none;
+
+        }
+    }
+}

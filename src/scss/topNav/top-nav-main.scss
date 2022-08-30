@@ -72,10 +72,17 @@ $icon-height : 40px;
        }
     }
     .search-icon{
+        position: relative;
         margin-right: auto;
-        overflow: hidden;
+        background-color: $grey-normal-lighter;
+        // overflow: hidden;
         input{
-            display: none;
+            background-color: $grey-normal-lighter;
+            width: 0;
+            outline: none;
+            border: none;
+            position: absolute;
+            z-index: -1;
         }
     }
 
@@ -86,15 +93,12 @@ $icon-height : 40px;
             left: $icon-height / 2;
             transform: translateX(-50%);
         }
-        background-color: $grey-normal-lighter;
+        background-color: $grey-normal-light;
         input{
-            width: calc(100% - 1.5 * $icon-height);
-            display: block;
-            position: absolute;
+            background-color: $grey-normal-light;
+            width: calc(100% - 1.5 * $icon-height);            
             left: $icon-height;
-            outline: none;
-            border: none;
-            background-color: $grey-normal-lighter;
+            z-index: 0;
         }
         &::after{
             width: 0;
@@ -121,6 +125,18 @@ $icon-height : 40px;
             border-radius: 50%;
             font-weight: bold;
             background-color: $grey-normal-light;
+        }
+    }
+}
+
+@media screen and (min-width: 900px) {
+    #top-nav-main{
+        .search-icon{
+            input{
+                width: calc(100% - 1.5 * $icon-height);
+                left: $icon-height;
+                z-index: 0;
+            }
         }
     }
 }

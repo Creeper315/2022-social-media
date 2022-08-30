@@ -1,25 +1,15 @@
 import '../../scss/feed/feed-main.scss';
 import TextArea from './textArea';
+import OneFeed from './oneFeed';
 
 const FeedMain = () => {
     return (
-        // <div id="feed-main-contain">
         <div id="feed-main">
             <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
-            <TextArea />
+            <OneFeed />
+            <OneFeed />
+            <OneFeed />
         </div>
-        // </div>
     );
 };
 

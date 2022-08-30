@@ -35,6 +35,7 @@ $shadow-1: 0 6px 30px -6px $grey-normal;
     }
 
     #log-in-btn{
+        cursor: pointer;
         @include btn-size(48px);
         background-color: $fb-blue;
         @include centering;
@@ -43,6 +44,7 @@ $shadow-1: 0 6px 30px -6px $grey-normal;
         font-size: 19px;
     }
     #forget-password{
+        cursor: pointer;
         text-align: center;
         font-size: 14px;
         font-weight: bold;
@@ -50,6 +52,7 @@ $shadow-1: 0 6px 30px -6px $grey-normal;
         color: $fb-blue;
     }
     #new-account{
+        cursor: pointer;
         display: flex;
         justify-content: center;
         div{

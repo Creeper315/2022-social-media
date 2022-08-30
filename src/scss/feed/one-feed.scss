@@ -1,0 +1,89 @@
+
+@import '../variables.scss';
+
+$feed-radius: 7px;
+$profile-size: 40px;
+$btn-size: 36px;
+
+@mixin oneFeed {
+    .one-feed{
+        border-radius: $feed-radius;
+        @include shadow-light;
+        background-color: white;
+        padding: 15px 20px 5px;
+        margin-bottom: 20px;
+        .first-line{
+            display: flex;
+            align-items: center;
+            // padding: 0 5px;
+            // @include red;
+            img{
+                @include round($profile-size);
+                margin: 0 10px 0 0;
+                cursor: pointer;
+            }
+            .usr-name{
+                @include font-1(14px, $grey-dark, bold);
+                @include hover-underline;
+                margin-right: auto;
+                cursor: pointer;
+                
+            }
+            .button{
+                @include round($btn-size);
+                @include centering;
+                @include hover-effect();
+                cursor: pointer;
+                .ri{
+                    color: $grey-normal;
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .feed-content-text{
+
+            padding: 0 10px 0 0;
+            margin: 10px 0;
+        }
+        .main-pic{
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            height: 44px;
+            display: flex;
+            align-items: stretch;
+            justify-content: space-around;
+            border-top: 1px solid $grey-normal-light;
+
+            div {
+                @include centering;
+                gap: 10px;
+                flex-grow: 1;
+                border-radius: $feed-radius;
+                cursor: pointer;
+
+                .ri {
+                    height: 22px;
+                    width: 22px;
+                }
+
+                @include hover-effect;
+            }
+
+            div:first-of-type .ri {
+                color: $fb-red;
+            }
+
+            div:nth-of-type(2) .ri {
+                color: $fb-green;
+            }
+
+            div:nth-of-type(3) .ri {
+                color: $fb-yellow;
+            }
+        }
+    }
+}

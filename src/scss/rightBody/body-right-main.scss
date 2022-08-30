@@ -1,12 +1,17 @@
 @import '../variables.scss';
 @import './body-right-top.scss';
+@import './body-right-contact.scss';
+@import './chat-box.scss';
 
 $img-size: 99px;
 
 #body-right-main{
-    border: 1px dashed brown;
-    width: 280px;
+    flex-basis: 280px;
+    flex-grow: 0.2;
+    max-width: 350px;
+    // border: 1px dashed brown;
     height: inherit;
+    overflow: scroll;
     padding: 15px 0 15px 7px;
 
     display: flex;
@@ -14,4 +19,12 @@ $img-size: 99px;
     align-items: stretch;
 
     @include right-top;
+    @include right-contact;
+    @include right-chat;
+}
+
+@media screen and (max-width: 900px) {
+    #body-right-main{
+        display: none;
+    }
 }

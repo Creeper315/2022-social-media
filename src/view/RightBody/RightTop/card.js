@@ -1,12 +1,15 @@
+import { BsThreeDots } from 'react-icons/bs';
+
 const Card = ({ imgSrc, h1, txt }) => {
     return (
-        <div id="card">
-            <div className="menu"></div>
-            <img src={imgSrc} alt="img" />
-            <div id="two-line">
-                <div>{h1}</div>
-                <div>{txt}</div>
+        <div className="card">
+            <div className="menu">
+                <BsThreeDots className="ri" />
             </div>
+            <img src={imgSrc} alt="img" />
+
+            <div className="line-1">{h1}</div>
+            <div className="line-2">{txt}</div>
         </div>
     );
 };

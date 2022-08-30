@@ -19,17 +19,18 @@ const i3 = 'https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/Cx_zTHRcUJ0.png';
 const LeftBarShrink = () => {
     return (
         <div id="left-bar-shrink">
-            <RectIcon icon={<FaHouseUser className="ri" />} />
-            <RectIcon imgUrl={profile} />
-            <RoundIcon icon={<CgMenuGridO className="ri" />} />
-            <RectIcon imgUrl={i1} />
-            <RectIcon imgUrl={i2} />
-            <RectIcon imgUrl={i3} />
-            <RoundIcon icon={<MdGroups className="ri" />} />
-            <RectIcon imgUrl={milk} />
-            <RectIcon imgUrl={profile} />
-            <RectIcon imgUrl={icecream} />
-            <RoundIcon icon={<BsLink45Deg className="ri" />} />
+            <RectIcon icon={<FaHouseUser className="ri" />} text="Home" />
+            <RectIcon imgUrl={profile} text="Richard Jia" />
+            <RoundIcon icon={<CgMenuGridO className="ri" />} text="Menu" />
+            <RectIcon imgUrl={i1} text="Watch" />
+            <RectIcon imgUrl={i2} text="Marketplace" />
+            <RectIcon imgUrl={i3} text="Gaming" />
+            <RoundIcon icon={<MdGroups className="ri" />} text="Groups" />
+            <RectIcon imgUrl={milk} text="PHforces" />
+            <RectIcon imgUrl={profile} text="Walter Gage North Tower" />
+            <RectIcon imgUrl={icecream} text="Walter Gage North Tower" />
+            <RoundIcon icon={<BsLink45Deg className="ri" />} text="Shortcuts" />
+            <RectIcon imgUrl={icecream} text="Sugar Crush" />
         </div>
     );
 };

@@ -1,0 +1,53 @@
+
+@import '../variables.scss';
+
+$search-bar-margin: calc((56px - 40px) / 2);
+$row-height:48px;
+$pro-size:36px;
+$close-btn-size:32px;
+
+#top-search-menu{
+    position:absolute;
+    top: calc(100% + $search-bar-margin);
+    background-color: white;
+    width: 100%;
+    // height: 50px;
+    z-index: 2;
+    @include red;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px 0 rgb(0,0,0,0.2);
+    padding: $search-bar-margin;
+    .one-row{
+        width: 100%;
+        height: $row-height;
+        cursor: pointer;
+        @include hover-effect($grey-normal-lighter, 10ms);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        img{
+            width: $row-height;
+            height: inherit;
+            padding: $search-bar-margin - 1px;
+            border-radius: 50%;
+        }
+        .name{
+            font-size: 16px;
+            margin-right: auto;
+        }
+        .icon{
+            background-color: $grey-light;
+            @include round($close-btn-size);
+            // @include centering;
+            @include hover-effect($grey-light);
+            // @include red;
+            margin-right: $search-bar-margin;
+            .ri{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}

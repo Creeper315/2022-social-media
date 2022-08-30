@@ -1,0 +1,91 @@
+@import '../variables.scss';
+
+@mixin red {
+    border: 1px dashed red
+}
+
+$icon-size: 32px;
+$profile-size: 24px;
+$line-height: 44px;
+
+@mixin right-contact {
+
+    #body-right-contact{
+        // @include red;
+
+        .first-line{
+            display: flex;
+            align-items: center;
+            // height: $icon-size;
+            p{
+                margin: 0;
+                margin-left: 10px;
+                @include font-1(16px, rgb(28, 28, 28), bold);
+                margin-right: auto;
+            }
+            div{
+                @include round($icon-size);
+                @include centering;
+                color: $grey-normal-dark;
+                background-color: $grey-normal-lighter;
+                margin: 0 5px;
+                @include hover-effect();
+            }
+        }
+
+        .list-contact {
+            margin-bottom: 20px;
+
+            .one-person {
+                position: relative;
+                height: $line-height;
+                @include hover-effect($grey-normal-light);
+                display: flex;
+                align-items: center;
+                border-radius: 9px;
+
+                img {
+                    @include round($profile-size);
+                    object-fit: cover;
+                    position: relative;
+                    left: ($line-height - $profile-size) / 2 - 2px;
+                }
+                .contact-name{
+                    position: relative;
+                    left: 17px;
+                    margin-right: auto;
+                    @include font-1(15px, rgb(31, 31, 31))
+                }
+                .icon{
+                    @include round($icon-size);
+                    @include centering;
+                    @include hover-effect($grey-normal-lighter);
+                    .ri{
+                        color: $grey-normal;
+                    }
+                }
+            }
+            .create-group{
+                div:first-of-type{
+                    // position: absolute;
+                    margin-left: 8px;
+                    @include round(36px);
+                    @include centering;
+                    background-color: $grey-normal-light;
+                    .ri{
+                        color: $grey-normal-dark;
+                        font-size: $line-height * 0.5;
+                    }
+                }
+                div:last-of-type{
+                    margin-left: 15px;
+                }
+            }
+        }
+
+        .title{
+            @include font-1(16px, rgb(28, 28, 28), bold);
+            margin-left: 10px;
+        }
+    }
+}

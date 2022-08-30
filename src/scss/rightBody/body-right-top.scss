@@ -1,12 +1,97 @@
 @import '../variables.scss';
 
+@mixin red {
+    border: 1px dashed red
+}
+$card-height: 112px;
+$card-pad: 8px;
+
 @mixin right-top {
     #body-right-top {
-            .head {
-                @include font-1(20px, black, normal);
-            }
-    
-            display: flex;
-            align-items: stretch;
+        .head {
+            @include font-1(18px, black, normal);
+            margin-left: $card-pad;
+            margin-bottom: 5px;
         }
+
+        display: flex;
+        flex-direction: column;
+
+        .card{
+            position: relative;
+            height: $card-height;
+            padding: $card-pad;
+
+            background-color: $grey-blue-background;
+            border: none;
+            margin-bottom: 15px;
+
+            &:hover{
+                background-color: $grey-normal-light;
+                > .menu {
+                    display: flex;
+                }
+            }
+
+            .menu{
+                z-index: 1;
+                position: absolute;
+                right: 10px;
+                top: 5px;
+                background-color: white;
+                border: 1px solid $grey-normal-light;
+                @include shadow-light;
+                @include centering;
+                @include round(40px);
+                display: none;
+                .ri{
+                    color: $grey-normal;
+                }
+            }
+
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 43% 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 3px;
+            img{
+                width: calc($card-height - 2 * $card-pad);
+                border-radius: 6px;
+                object-fit: cover;
+
+                grid-row: 1 / -1;
+                grid-column: 1 / 2;
+
+                // @include red;
+            }
+            .line-1{
+                position: relative;
+
+                min-height: 0;
+                overflow: scroll;
+                grid-row: 1 / 2;
+                grid-column: 2 / -1;
+                
+                justify-self: flex-start;
+                align-self: flex-end;
+
+                line-height: 1rem;
+                @include font-1(15px, black);
+                // @include red;
+            }
+
+            .line-2 {
+
+                grid-row: 2 / -1;
+                grid-column: 2 / -1;
+
+                justify-self: flex-start;
+                align-self: flex-start;
+
+                line-height: 0.8rem;
+                @include font-1(13px, $grey-normal);
+                // @include red;
+            }
+        }
+    }
 }

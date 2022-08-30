@@ -1,0 +1,170 @@
+@import '../variables.scss';
+
+$first-line-height: 44px;
+$pro-size: 32px;
+$top-icon: 26px;
+$icon-size: 36px;
+$icon-middle: 20px;
+
+$box-width: 328px;
+$box-height: 455px;
+
+@mixin right-chat {
+    .chat-box{
+        width: $box-width;
+        height: $box-height;
+        // @include red;
+        z-index: 1;
+        position: fixed;
+        right: 25%;
+        bottom: 0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 20px -5px $grey-normal;
+        display: flex;
+        flex-direction: column;
+        .chat-top{
+            width: 100%;
+            padding: 7px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            
+            background-color: $grey-light;
+            @include shadow-light;
+            position: relative;
+
+            img{
+                @include round($pro-size);
+                object-fit: cover;
+                margin-right: 10px;
+            }
+            .profile-name{
+                @include font-1(15px, $grey-dark, bold);
+                margin-right: auto;
+            }
+            .top-btn{
+                @include centering;
+                @include round($top-icon);
+                @include hover-effect();
+                color: $grey-normal;
+            }
+        }
+        .chat-history {
+            @include red;
+            height: 100%;
+            width: inherit;
+            background-color: white;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+
+            overflow: scroll;
+
+            display: grid;
+            grid-template-columns: 42px 40px 1fr 50px 20px;
+            grid-auto-rows: minmax(min-content, max-content);
+            .message{   // 自己
+                @include red;
+                grid-column: 3 / -2;
+                // margin: 5px 0 5px auto;
+                margin: 5px 0;
+                height: fit-content;
+                display: flex;
+                align-items: center;
+
+                
+                .msg-content {
+                    margin-left: auto;
+                    padding: 7px 10px;
+                    min-width: 0;
+                    overflow-wrap: break-word;
+                    height: fit-content;
+                    background-color: $fb-blue;
+                    color: white;
+                    border-radius: 10px;
+                    border-top-left-radius: 15px;
+                    border-bottom-left-radius: 15px;
+                }
+            }
+            .message.from-other{  // 别人
+                grid-column: 1 / span 3;
+                img {
+                    @include round($icon-size);
+                    object-fit: cover;
+                    margin: 0 5px;
+                }
+                .msg-content {
+                    margin-left: 0;
+                    overflow-wrap: break-word;
+                    background-color: $grey-normal-light;
+                    color: black;
+                    border-radius: 10px;
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                }
+            }
+        }
+        .chat-input{
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            background-color: white;
+            padding: 1px 0 10px;
+            // margin-bottom: 10px;
+            // background-color: $grey-normal-lighter;
+            @include shadow-light;
+
+            .plus-sign{
+                @include round($icon-size);
+                @include centering;
+                @include hover-effect($grey-normal-lighter);
+                color: $grey-normal;
+                flex-shrink: 0;
+                .ri{
+                    width: $icon-middle;
+                    height: $icon-middle;
+                }
+            }
+            .input-contain{
+                // @include red;
+                height: $icon-size;
+                border-radius: $icon-size;
+                background-color: $grey-normal-lighter;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                input{
+                    height: inherit;
+                    width: 100%;
+                    margin-left: $icon-size * 0.3;
+                    background-color: inherit;
+                    border: none;
+                    outline: none;
+
+                    @include font-1(14px, black);
+                }
+                .emoji{
+                    @include round(28px);
+                    @include hover-effect($grey-normal-light);
+                    @include centering;
+                    color: $grey-normal;
+                    // @include red;
+                    flex-shrink: 0;
+                    margin-right: 5px;
+                    font-size: $icon-middle;
+                }
+                width: 100%;
+            }
+            .send{
+                flex-shrink: 0;
+                @include round($icon-size);
+                @include hover-effect($grey-normal-lighter);
+                @include centering;
+                color: $grey-normal;
+                font-size: $icon-middle;
+            }
+        }
+    }
+}

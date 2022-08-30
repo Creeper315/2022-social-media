@@ -2,9 +2,11 @@ $fb-blue : #3b65ff;
 $fb-green: #42b72a;
 $fb-red: #f3425f;
 $fb-yellow: #f7b928;
-$grey-blue-background: #ebeff5;
+$grey-blue-background: #ebeef4;
+$grey-dark: rgb(44, 44, 44);
+$grey-normal-dark: #5b606b;
 $grey-normal: #7b818d;
-$grey-normal-light:#e2e5ea;
+$grey-normal-light:#e0e3e8;
 $grey-normal-lighter: #eaedf2;
 $grey-light: #f7f8f8;
 $font-1: Helvetica, Arial, sans-serif;
@@ -33,7 +35,7 @@ $font-1: Helvetica, Arial, sans-serif;
 @mixin font-1($size: 16px, $color: black, $weight: normal) {
     font-size: $size;
     font-weight: $weight;
-    font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    font-family:  Helvetica, Arial, sans-serif;
     color: $color;
 }
 
@@ -45,4 +47,14 @@ $font-1: Helvetica, Arial, sans-serif;
         background-color: $color;
         transition: none;
     }
+}
+@mixin hover-underline {
+    &:hover{
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+}
+
+@mixin red {
+    border: 1px dashed red;
 }

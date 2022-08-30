@@ -1,9 +1,12 @@
 @import '../variables.scss';
+@import './text-area.scss';
+@import './one-feed.scss';
+
 
 $feed-radius: 7px;
 
 #feed-main{
-    position: relative;
+    // position: relative;
     background-color: $grey-blue-background;
     height: inherit;
     overflow: scroll;
@@ -15,69 +18,9 @@ $feed-radius: 7px;
     display: flex;
     flex-direction: column;
 
-    #text-area{
-        border-radius: $feed-radius;
-        @include shadow-light;
-        background-color: white;
-        padding: 12px 16px 10px;
-        margin-bottom: 20px;
-
-        #upper{
-            $height: 40px;
-            display: flex;
-            justify-content: stretch;
-            align-items: center;
-            gap: 10px;
-
-            img{
-                @include round($height);
-                object-fit: cover;
-                cursor: pointer;
-            }
-            input{
-                width: 100%;
-                height: $height;
-                border-radius: $height;
-                text-indent: $height * 0.25;
-                cursor: pointer;
-                outline: none;
-                border: none;
-                background-color: $grey-normal-lighter;
-                @include hover-effect;
-            }
-        }
-        hr {
-            margin: 12px 0;
-        }
-        #lower{
-            height: 40px;
-            display: flex;
-            align-items: stretch;
-            justify-content: space-around;
-            div{
-                @include centering;
-                gap: 10px;
-                flex-grow: 1;
-                border-radius: $feed-radius;
-                cursor: pointer;
-                .ri{
-                    height: 22px;
-                    width: 22px;
-                }
-                @include hover-effect;
-            }
-            
-            div:first-of-type .ri{
-                color: $fb-red;
-            }
-            div:nth-of-type(2) .ri{
-                color: $fb-green;
-            }
-            div:nth-of-type(3) .ri{
-                color: $fb-yellow;
-            }
-        }
-    }
+    @include textArea;
+    @include oneFeed;
+    
 }
 // 675 ？
 // 900
@@ -111,6 +54,6 @@ $feed-radius: 7px;
 
 @media screen and (min-width: 1160px) {
     #feed-main {
-        margin: 0 32px;
+        // margin: 0 32px;
     }
 }
