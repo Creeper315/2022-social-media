@@ -1,7 +1,7 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 @mixin red {
-    border: 1px dashed red
+    border: 1px dashed red;
 }
 
 $icon-size: 32px;
@@ -9,21 +9,20 @@ $profile-size: 24px;
 $line-height: 44px;
 
 @mixin right-contact {
-
-    #body-right-contact{
+    #body-right-contact {
         // @include red;
 
-        .first-line{
+        .first-line {
             display: flex;
             align-items: center;
             // height: $icon-size;
-            p{
+            p {
                 margin: 0;
                 margin-left: 10px;
                 @include font-1(16px, rgb(28, 28, 28), bold);
                 margin-right: auto;
             }
-            div{
+            div {
                 @include round($icon-size);
                 @include centering;
                 color: $grey-normal-dark;
@@ -50,40 +49,50 @@ $line-height: 44px;
                     position: relative;
                     left: ($line-height - $profile-size) / 2 - 2px;
                 }
-                .contact-name{
+                .contact-name {
+                    user-select: none;
                     position: relative;
                     left: 17px;
                     margin-right: auto;
-                    @include font-1(15px, rgb(31, 31, 31))
+                    @include font-1(15px, rgb(31, 31, 31));
                 }
-                .icon{
+                .icon {
+                    cursor: pointer;
                     @include round($icon-size);
                     @include centering;
                     @include hover-effect($grey-normal-lighter);
-                    .ri{
-                        color: $grey-normal;
+                    .ri {
+                        color: $grey-dark;
                     }
                 }
             }
-            .create-group{
-                div:first-of-type{
+            .create-group {
+                border: 1px dashed transparent;
+                height: auto;
+                padding: 8px 8px;
+                &:hover {
+                    background-color: inherit;
+                    border: 1px dashed $grey-normal;
+                }
+                cursor: pointer;
+                div:first-of-type {
                     // position: absolute;
-                    margin-left: 8px;
+                    // margin-left: 8px;
                     @include round(36px);
                     @include centering;
                     background-color: $grey-normal-light;
-                    .ri{
-                        color: $grey-normal-dark;
+                    .ri {
+                        color: $grey-dark;
                         font-size: $line-height * 0.5;
                     }
                 }
-                div:last-of-type{
+                div:last-of-type {
                     margin-left: 15px;
                 }
             }
         }
 
-        .title{
+        .title {
             @include font-1(16px, rgb(28, 28, 28), bold);
             margin-left: 10px;
         }

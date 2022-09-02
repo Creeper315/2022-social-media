@@ -1,13 +1,23 @@
-import '../../scss/topNav/search-menu.scss';
-import { IoClose } from 'react-icons/io5';
-import { HiUserAdd } from 'react-icons/hi';
-import iii from '../../img/profile.jpeg';
-import axios from 'axios';
+import "../../scss/topNav/search-menu.scss";
+import { IoClose } from "react-icons/io5";
+import { HiUserAdd } from "react-icons/hi";
+import iii from "../../img/profile.jpeg";
+import axios from "axios";
 
-import { useSelector, useDispatch } from 'react-redux';
-// import { setUser } from '../../redux/slice/thisUser';
+import { useSelector, useDispatch } from "react-redux";
+import { rdxAddFriend } from "../../redux/slice/thisUser";
+import { useContext, useEffect } from "react";
+import { SocketContext } from "../../Socket/socketContext";
+// import { addFriend } from "../../redux/slice/thisUser";
 
 const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
+    const disp = useDispatch();
+    const { Socket } = useContext(SocketContext);
+    const this_user = useSelector((s) => s.user);
+    useEffect(() => {
+        // Socket.on("add friend", ());
+    }, []);
+
     // console.log('ooo', ListUserFound);
     function displayPeople() {
         return ListUserFound.map((e, idx) => {
@@ -27,14 +37,24 @@ const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
     }
 
     function addFriend(e) {
+        console.log("other", e);
         axios
-            .post('/addFriend', {
+            .post("/addFriend", {
                 self: this_user,
                 other: e,
             })
             .then((e) => {
-                // window.eee = e;
-                // console.log('then', e);
+                let chatId = e.data.chatId;
+                let other = e.data.other;
+                let { _id, name, pro } = this_user;
+                // console.log("? ", this_user, other);
+                Socket.emit("add friend", other._id, {
+                    _id,
+                    name,
+                    pro,
+                    chatId,
+                });
+                disp(rdxAddFriend({ ...other, chatId }));
             });
     }
 
@@ -45,11 +65,10 @@ const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
         // setListUserFound(ListUserFound);
     }
 
-    const this_user = useSelector((s) => s.user);
     // const disp = useDispatch();
 
     // function set() {
-    //     disp(setUser({ name: 'new name!' }));
+    //     disp(initUser({ name: 'new name!' }));
     // }
 
     return (

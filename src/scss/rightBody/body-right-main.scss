@@ -1,11 +1,12 @@
-@import '../variables.scss';
-@import './body-right-top.scss';
-@import './body-right-contact.scss';
-@import './chat-box.scss';
+@import "../variables.scss";
+@import "./body-right-top.scss";
+@import "./body-right-contact.scss";
+@import "./chat-box.scss";
+@import "./add-group-box.scss";
 
 $img-size: 99px;
 
-#body-right-main{
+#body-right-main {
     flex-basis: 280px;
     flex-grow: 0.2;
     max-width: 350px;
@@ -20,11 +21,12 @@ $img-size: 99px;
 
     @include right-top;
     @include right-contact;
+    @include right-group-;
     @include right-chat;
 }
 
 @media screen and (max-width: 900px) {
-    #body-right-main{
+    #body-right-main {
         display: none;
     }
 }

@@ -1,0 +1,137 @@
+@import "../variables.scss";
+
+@mixin right-group- {
+    .add-group-main {
+        position: fixed;
+        right: 100px;
+        bottom: 0;
+        width: 328px;
+        height: 455px;
+        background-color: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        z-index: 1;
+        .line-1 {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            padding: 12px;
+            box-shadow: 0 1px 2px -1px $grey-dark;
+
+            .add-btn {
+                margin-left: 26px;
+                margin-right: auto;
+                font-size: 15px;
+                outline: none;
+            }
+            .ri {
+                @include centering;
+                @include round(30px);
+                @include hover-effect($grey-normal-light);
+                color: $grey-normal;
+            }
+        }
+        .line-2 {
+            $h: 50px;
+            height: $h;
+            box-shadow: 0 1px 2px -1px $grey-dark;
+            display: flex;
+            align-items: center;
+            .to {
+                width: $h;
+                height: $h;
+                @include centering;
+                margin-right: 0 20px 0 20px;
+            }
+            .name-contain {
+                @include f-row;
+                position: relative;
+                overflow: scroll;
+                height: 100%;
+                padding: 5px;
+                gap: 4px;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+                .one-name {
+                    height: 32px;
+                    @include f-row;
+                    border-radius: 5px;
+                    background-color: $fb-blue-lighter;
+                    max-width: 120px;
+
+                    div {
+                        max-width: 100px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        @include f-row;
+                        padding: 0 5px;
+                        color: $fb-blue;
+                        font-size: 12px;
+                    }
+                    .icon {
+                        flex-shrink: 0;
+                        @include round(20px);
+                        @include centering;
+                        @include hover-effect;
+                        cursor: pointer;
+                        color: $fb-blue;
+                    }
+                }
+                ::-webkit-input-placeholder {
+                    color: $grey-normal-light;
+                }
+                input {
+                    border: none;
+                    outline: none;
+                    height: 40px;
+                    width: 220px;
+                    border: 1px solid $grey-normal-light;
+                    border-radius: 5px;
+                }
+            }
+        }
+        .line-3 {
+            height: 60px;
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
+            box-shadow: 0 1px 2px -1px $grey-dark;
+            position: relative;
+            div {
+                width: 50%;
+                @include centering;
+                color: $fb-blue;
+                font-size: 14px;
+            }
+            div:first-of-type {
+                box-shadow: 0 -3px 0 0 $fb-blue inset;
+            }
+        }
+        .line-4 {
+            height: 48px;
+            @include f-row;
+            margin: 0 8px;
+            padding: 0 8px;
+            border-radius: 8px;
+            @include hover-effect($grey-light, 100ms);
+            // background-color: $fb-blue-lighterer;
+
+            .icon {
+                position: relative;
+                @include round(36px);
+                overflow: hidden;
+                margin-right: 12px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+        .line-4.active {
+            background-color: $fb-blue-lighterer;
+        }
+    }
+}

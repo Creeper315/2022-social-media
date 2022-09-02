@@ -1,14 +1,14 @@
-import axios from 'axios';
-import '../../scss/topNav/top-nav-main.scss';
-import profile_default from '../../img/profile.jpeg';
-import SearchMenu from './searchMenu';
-import { BsSearch } from 'react-icons/bs';
-import { BsMessenger } from 'react-icons/bs';
-import { FaBell } from 'react-icons/fa';
-import { BiChevronDown } from 'react-icons/bi';
+import axios from "axios";
+import "../../scss/topNav/top-nav-main.scss";
+import profile_default from "../../img/profile.jpeg";
+import SearchMenu from "./searchMenu";
+import { BsSearch } from "react-icons/bs";
+import { BsMessenger } from "react-icons/bs";
+import { FaBell } from "react-icons/fa";
+import { BiChevronDown } from "react-icons/bi";
 
-import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TopNavMain = () => {
     const navi = useNavigate();
@@ -27,23 +27,23 @@ const TopNavMain = () => {
         }
         // console.log('ttt', text);
         axios({
-            method: 'get',
-            url: '/getUserByName',
+            method: "get",
+            url: "/getUserByName",
             params: { text },
         }).then((e) => {
-            console.log('search', e.data);
+            // console.log('search', e.data);
             setListUserFound(e.data);
         });
     }
 
     function searchBarActive() {
-        if (ShowSearchMenu) return ' active ';
-        return '';
+        if (ShowSearchMenu) return " active ";
+        return "";
     }
 
     function logout() {
-        axios({ method: 'get', url: '/logout' }).then(() => {
-            navi('/');
+        axios({ method: "get", url: "/logout" }).then(() => {
+            navi("/");
         });
     }
     return (
@@ -54,7 +54,7 @@ const TopNavMain = () => {
                 className="fb-logo"
             />
             <div
-                className={'icon search-icon ' + searchBarActive()}
+                className={"icon search-icon " + searchBarActive()}
                 // className={'icon search-icon active'}
                 onClick={() => {
                     setShowSearchMenu(true);
