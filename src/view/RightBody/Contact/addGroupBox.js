@@ -27,7 +27,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
         axios
             .get("/getFriendByName", { params: { _id: this_user._id, text } })
             .then((e) => {
-                console.log(e.data);
+                // console.log(e.data);
                 setFoundFriends(e.data);
             });
     }
@@ -96,7 +96,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
         }
         axios
             .post("/createGroup", {
-                friend: SelectedFriends,
+                friend: [...SelectedFriends, { _id: this_user._id }],
             })
             .then((e) => {
                 let { chatId, name, listUserId } = e.data;

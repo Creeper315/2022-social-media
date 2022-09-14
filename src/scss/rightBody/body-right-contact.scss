@@ -66,6 +66,9 @@ $line-height: 44px;
                     }
                 }
             }
+            .one-person.active {
+                background-color: $fb-blue;
+            }
             .create-group {
                 border: 1px dashed transparent;
                 height: auto;

@@ -1,0 +1,91 @@
+@import "../variables.scss";
+
+#top-notification {
+    z-index: 2;
+    @include red;
+    width: 360px;
+    height: 90vh;
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px -5px $grey-normal;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    .first-line {
+        height: 48px;
+        @include f-row;
+        gap: 8px;
+        margin: 5px;
+        @include red;
+        span {
+            margin-right: auto;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: $font-2;
+        }
+        .icon {
+            @include round(32px);
+            @include centering;
+        }
+    }
+    input {
+        // width: 100%;
+        height: 36px;
+        border-radius: 36px;
+        border: none;
+        outline: none;
+        margin: 3px 5px;
+        @include red;
+        text-indent: 15px;
+    }
+    ::-webkit-input-placeholder {
+        color: rgb(203, 203, 203);
+    }
+    .one-contact {
+        padding: 8px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        cursor: pointer;
+        @include hover-effect($grey-normal-lighter);
+        img {
+            $s: calc(72px - 8px - 8px);
+            @include round($s);
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            margin-right: auto;
+            .name {
+                font-size: 15px;
+                font-family: $font-2;
+            }
+            .message {
+                color: #65676b;
+                font-size: 13px;
+            }
+        }
+        .red-dot-2 {
+            @include round(16px);
+            @include centering;
+            flex-shrink: 0;
+            color: white;
+            font-size: 10px;
+            background-color: red;
+        }
+        .red-dot-2.blue {
+            background-color: $fb-blue;
+            color: $fb-blue;
+        }
+    }
+}

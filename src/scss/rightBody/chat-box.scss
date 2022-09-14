@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 $first-line-height: 44px;
 $pro-size: 32px;
@@ -10,7 +10,7 @@ $box-width: 328px;
 $box-height: 455px;
 
 @mixin right-chat {
-    .chat-box{
+    .chat-box {
         width: $box-width;
         height: $box-height;
         // @include red;
@@ -24,27 +24,27 @@ $box-height: 455px;
         box-shadow: 0 0 20px -5px $grey-normal;
         display: flex;
         flex-direction: column;
-        .chat-top{
+        .chat-top {
             width: 100%;
             padding: 7px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            
+
             background-color: $grey-light;
             @include shadow-light;
             position: relative;
 
-            img{
+            img {
                 @include round($pro-size);
                 object-fit: cover;
                 margin-right: 10px;
             }
-            .profile-name{
+            .profile-name {
                 @include font-1(15px, $grey-dark, bold);
                 margin-right: auto;
             }
-            .top-btn{
+            .top-btn {
                 @include centering;
                 @include round($top-icon);
                 @include hover-effect();
@@ -53,28 +53,33 @@ $box-height: 455px;
         }
         .chat-history {
             @include red;
+            position: relative;
             height: 100%;
             width: inherit;
             background-color: white;
             padding: 10px 0;
-            display: flex;
-            flex-direction: column;
 
             overflow: scroll;
 
             display: grid;
             grid-template-columns: 42px 40px 1fr 50px 20px;
             grid-auto-rows: minmax(min-content, max-content);
-            .message{   // 自己
-                @include red;
+            .padd {
+                // @include red;
+                height: 20px;
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .message {
+                // 自己
                 grid-column: 3 / -2;
                 // margin: 5px 0 5px auto;
-                margin: 5px 0;
+                margin: 1px 0;
                 height: fit-content;
                 display: flex;
                 align-items: center;
 
-                
                 .msg-content {
                     margin-left: auto;
                     padding: 7px 10px;
@@ -88,7 +93,8 @@ $box-height: 455px;
                     border-bottom-left-radius: 15px;
                 }
             }
-            .message.from-other{  // 别人
+            .message.from-other {
+                // 别人
                 grid-column: 1 / span 3;
                 img {
                     @include round($icon-size);
@@ -106,7 +112,7 @@ $box-height: 455px;
                 }
             }
         }
-        .chat-input{
+        .chat-input {
             display: flex;
             gap: 5px;
             align-items: center;
@@ -115,19 +121,33 @@ $box-height: 455px;
             // margin-bottom: 10px;
             // background-color: $grey-normal-lighter;
             @include shadow-light;
-
-            .plus-sign{
+            .view-bottom {
+                position: absolute;
+                transform: translateY(-120%);
+                cursor: pointer;
+                height: 40px;
+                width: 100%;
+                @include centering;
+                border-radius: 10px;
+                background-color: rgb(128, 128, 128, 0.5);
+                @include hover-effect($grey-normal-light, 200ms);
+                color: rgb(202, 54, 54);
+                text-shadow: 1px 1px 0 rgb(255, 228, 228);
+                font-weight: bold;
+                font-family: "Courier New", Courier, monospace;
+            }
+            .plus-sign {
                 @include round($icon-size);
                 @include centering;
                 @include hover-effect($grey-normal-lighter);
                 color: $grey-normal;
                 flex-shrink: 0;
-                .ri{
+                .ri {
                     width: $icon-middle;
                     height: $icon-middle;
                 }
             }
-            .input-contain{
+            .input-contain {
                 // @include red;
                 height: $icon-size;
                 border-radius: $icon-size;
@@ -135,7 +155,7 @@ $box-height: 455px;
                 display: flex;
                 align-items: center;
                 overflow: hidden;
-                input{
+                input {
                     height: inherit;
                     width: 100%;
                     margin-left: $icon-size * 0.3;
@@ -145,7 +165,7 @@ $box-height: 455px;
 
                     @include font-1(14px, black);
                 }
-                .emoji{
+                .emoji {
                     @include round(28px);
                     @include hover-effect($grey-normal-light);
                     @include centering;
@@ -157,7 +177,7 @@ $box-height: 455px;
                 }
                 width: 100%;
             }
-            .send{
+            .send {
                 flex-shrink: 0;
                 @include round($icon-size);
                 @include hover-effect($grey-normal-lighter);

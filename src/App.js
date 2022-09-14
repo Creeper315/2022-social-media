@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginMain from "./view/Login/login_main";
 import MainPage from "./view/MainPage/mainPage";
 import NotFound from "./view/MainPage/notFound404";
-import Socket from "../src/Socket/socket";
 import SocketProvider from "./Socket/socketContext";
 
 import store from "./redux/store";
@@ -17,7 +16,6 @@ function App() {
                         <Routes>
                             <Route path="/" element={<LoginMain />}></Route>
                             <Route path="/main" element={<MainPage />}></Route>
-                            {/* <Route path="/socket" element={<Socket />}></Route> */}
                             <Route path="/*" element={<NotFound />}></Route>
                         </Routes>
                     </Router>

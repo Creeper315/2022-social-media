@@ -1,25 +1,22 @@
-import { BsThreeDots } from 'react-icons/bs';
-import { FiThumbsUp } from 'react-icons/fi';
-import { VscComment } from 'react-icons/vsc';
-import { RiShareForwardLine } from 'react-icons/ri';
+import { BsThreeDots } from "react-icons/bs";
+import { FiThumbsUp } from "react-icons/fi";
+import { VscComment } from "react-icons/vsc";
+import { RiShareForwardLine } from "react-icons/ri";
 
-import pro from '../../img/nobody.jpeg';
-import icecream from '../../img/icecream.jpg';
+// import pro from "../../img/nobody.jpeg";
+import icecream from "../../img/icecream.jpg";
 
-const OneFeed = ({ content }) => {
+const OneFeed = ({ text, _id, pro, name, comment }) => {
     return (
         <div className="one-feed">
             <div className="first-line">
                 <img src={pro} alt="pro" />
-                <div className="usr-name">Name here</div>
+                <div className="usr-name">{name}</div>
                 <div className="button">
                     <BsThreeDots className="ri" />
                 </div>
             </div>
-            <div className="feed-content-text">
-                This is what happens when you think you don't need your regular
-                morning nap, lol
-            </div>
+            <div className="feed-content-text">{text}</div>
             <img src={icecream} alt="pic" className="main-pic" />
             <div className="options">
                 <div>

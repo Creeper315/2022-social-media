@@ -1,22 +1,30 @@
-import axios from "axios";
 import "../../scss/topNav/top-nav-main.scss";
+import "../../scss/topNav/notification.scss";
+
 import profile_default from "../../img/profile.jpeg";
 import SearchMenu from "./searchMenu";
 import { BsSearch } from "react-icons/bs";
 import { BsMessenger } from "react-icons/bs";
 import { FaBell } from "react-icons/fa";
 import { BiChevronDown } from "react-icons/bi";
+import Notification from "./notification";
 
-import { useRef, useState } from "react";
+import axios from "axios";
+import { useRef, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const TopNavMain = () => {
+    const this_user = useSelector((s) => s.user);
     const navi = useNavigate();
     const [ListUserFound, setListUserFound] = useState([]);
-    // const [BarFocused, setBarFocused] = useState(false);
     const inputRef = useRef(null);
     const withinSearch = useRef(false);
     const [ShowSearchMenu, setShowSearchMenu] = useState(false);
+    const [ShowNotification, setShowNotification] = useState(false);
+    const notificationType = useRef("");
+
+    // useEffect(() => {}, [this_user._id]);
 
     function onText(e) {
         let text = e.target.value;
@@ -48,6 +56,9 @@ const TopNavMain = () => {
     }
     return (
         <div id="top-nav-main">
+            {ShowNotification && (
+                <Notification {...{ notificationType, setShowNotification }} />
+            )}
             <img
                 src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
                 alt="facebook-logo"
@@ -78,11 +89,26 @@ const TopNavMain = () => {
                     }}
                 />
             </div>
-            <div className="icon messenger-icon">
-                <div className="red-dot">1</div>
+            <div
+                className="icon messenger-icon"
+                onClick={() => {
+                    notificationType.current = "msg";
+                    setShowNotification(true);
+                }}
+            >
+                <div className="red-dot">{this_user.msgNotificationCount}</div>
                 <BsMessenger className="ri" />
             </div>
-            <div className="icon no-icon">
+            <div
+                className="icon no-icon"
+                onClick={() => {
+                    notificationType.current = "friend";
+                    setShowNotification(true);
+                }}
+            >
+                <div className="red-dot">
+                    {this_user.friendNotificationCount}
+                </div>
                 <FaBell className="ri" />
             </div>
             <div className="icon pro-icon" onClick={logout}>

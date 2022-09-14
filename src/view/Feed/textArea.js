@@ -1,14 +1,19 @@
-import { ImVideoCamera } from 'react-icons/im';
-import { HiOutlinePhotograph } from 'react-icons/hi';
-import { FaRegLaugh } from 'react-icons/fa';
-import profile from '../../img/profile.jpeg';
+import { ImVideoCamera } from "react-icons/im";
+import { HiOutlinePhotograph } from "react-icons/hi";
+import { FaRegLaugh } from "react-icons/fa";
+import profile from "../../img/profile.jpeg";
 
-const TextArea = () => {
+const TextArea = ({ setShowModal }) => {
     return (
         <div id="text-area">
             <div id="upper">
                 <img src={profile} alt="profile" />
-                <input placeholder="What's on your mind? Richard" />
+                <input
+                    placeholder="What's on your mind? Richard"
+                    onClick={() => {
+                        setShowModal(true);
+                    }}
+                />
             </div>
 
             <hr />

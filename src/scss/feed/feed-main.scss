@@ -1,17 +1,16 @@
-@import '../variables.scss';
-@import './text-area.scss';
-@import './one-feed.scss';
-
+@import "../variables.scss";
+@import "./text-area.scss";
+@import "./one-feed.scss";
 
 $feed-radius: 7px;
 
-#feed-main{
-    // position: relative;
+#feed-main {
+    z-index: 1;
     background-color: $grey-blue-background;
     height: inherit;
     overflow: scroll;
 
-    margin: 0px auto;         // 这一行 margin 的 auto 很重要！
+    margin: 0px auto; // 这一行 margin 的 auto 很重要！
     padding-top: 20px;
     flex-basis: 590px;
 
@@ -20,33 +19,95 @@ $feed-radius: 7px;
 
     @include textArea;
     @include oneFeed;
-    
+
+    #add-post-background {
+        position: fixed;
+        left: 0%;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(255, 255, 255, 0.5);
+        @include centering;
+        .add-post-modal {
+            background-image: url("../../img/addPost.png");
+            background-size: cover;
+            position: relative;
+            width: 500px;
+            height: 430px;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 12px 28px rgb(0, 0, 0, 0.4);
+            .icon {
+                position: absolute;
+                right: 14px;
+                top: 12px;
+                background-color: $grey-normal-lighter;
+                @include round(36px);
+                @include centering;
+                @include hover-effect($grey-normal-light, 200ms);
+
+                .ri {
+                    @include round(20px);
+                    color: $grey-normal;
+                }
+            }
+            textarea {
+                // 72 + 60
+                border: none;
+                position: absolute;
+                top: 132px;
+                width: 468px;
+                height: 110px;
+                outline: none;
+                font-size: 25px;
+                @include red;
+            }
+            button {
+                border: none;
+                outline: none;
+                @include centering;
+                position: absolute;
+                bottom: 16px;
+                left: 16px;
+                width: 470px;
+                height: 36px;
+                border-radius: 8px;
+                cursor: default;
+                background-color: $grey-normal-light;
+                color: $grey-normal;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+            }
+            button.active {
+                background-color: $fb-blue;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
 }
 // 675 ？
 // 900
 // 1160
 
-@media screen and (min-width: 900px){
-    #main-body2{
+@media screen and (min-width: 900px) {
+    #main-body2 {
         gap: 10px;
     }
     #feed-main {
         // margin-left: 32px;
     }
-    #top-nav-main{
-        .search-icon{
+    #top-nav-main {
+        .search-icon {
             width: auto;
             flex-basis: 540px;
             margin: 0 auto;
         }
     }
-    // #right-body-main{
-    //     max-width: 280px;
-    // }
 }
 
 @media screen and (max-width: 900px) {
-
     #right-body-main {
         display: none;
     }

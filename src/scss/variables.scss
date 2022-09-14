@@ -14,6 +14,8 @@ $grey-normal-light: #e0e3e8;
 $grey-normal-lighter: #eaedf2;
 $grey-light: #f7f8f8;
 $font-1: Helvetica, Arial, sans-serif;
+$font-2: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
 @mixin centering {
     display: flex;

@@ -42,7 +42,7 @@ const MainPage = () => {
             },
         })
             .then((e) => {
-                console.log("got user", e.data);
+                console.log("init user", e.data);
                 let name = e.data.firstName + " " + e.data.lastName;
                 Socket.emit("join own room", e.data._id);
                 disp(initUser({ ...e.data, name: name }));

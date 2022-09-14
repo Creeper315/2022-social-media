@@ -4,7 +4,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { IoExitOutline } from "react-icons/io5";
 
 import nobody from "../../../img/nobody.jpeg";
-import ChatBox from "./chatBox";
+import ChatBox, { initialLoadAmount, additionLoadAmount } from "./chatBox";
+// import GroupBox from "./groupBox";
 import AddGroupBox from "./addGroupBox";
 
 import axios from "axios";
@@ -12,29 +13,40 @@ import axios from "axios";
 import { useState, useRef, useContext, useEffect } from "react";
 import { SocketContext } from "../../../Socket/socketContext";
 import { useSelector, useDispatch } from "react-redux";
-import { rdxDeleteFriend, rdxAddFriend } from "../../../redux/slice/thisUser";
+import {
+    rdxDeleteFriend,
+    rdxAddFriend,
+    rdxAddGroup,
+    rdxLeaveGroup,
+    rdxIncMsgNoti,
+} from "../../../redux/slice/thisUser";
+import { rdxOpenChat } from "../../../redux/slice/openChat";
+// import { rdxOpenChat } from "../../../redux/slice/openChat";
 
 const Contact = () => {
     const { Socket } = useContext(SocketContext);
-    const msgLoadAmount = 2; // 往上 scroll，每次 load 进来多少
+    // const msgLoadAmount = 2; // 往上 scroll，每次 load 进来多少
     const disp = useDispatch();
     const this_user = useSelector((s) => s.user);
+    const open_chat = useSelector((s) => s.chat);
+    // const [Refresh, setRefresh] = useState(0);
 
-    const hoverDelete = useRef(false);
+    const preventBoxOpen = useRef(false);
+    const chatType = useRef(""); // one of: group / individual
     const [BoxOpen, setBoxOpen] = useState(false);
-    const [AddGroupOpen, setAddGroupOpen] = useState(true);
+    const [AddGroupOpen, setAddGroupOpen] = useState(false);
     const [AllChatMessage, setAllChatMessage] = useState([]);
-    const [Friend, setFriend] = useState({
+    const [ChatInfo, setChatInfo] = useState({
         _id: "",
         pro: "",
         name: "",
         chatId: "",
     });
+    const childRef = useRef();
 
     useEffect(() => {
+        // console.log("restart contact main effect");
         Socket.on("delete friend", (_id) => {
-            console.log("delete f", _id);
-
             disp(rdxDeleteFriend(_id));
         });
         Socket.on("add friend", (friend) => {
@@ -42,14 +54,143 @@ const Contact = () => {
         });
         Socket.on("create group", (chatId, name) => {
             // 更新 一行group
-            // emit 给 server 我要加入 group 的 room
+            // console.log("on create g", chatId, name);
+            disp(rdxAddGroup({ chatId, name }));
+        });
+
+        Socket.on("receieve msg", (senderObj) => {
+            // 日期 + 对方的 msg，画出来
+            // console.log("red 1", senderObj.chatId);
+            // console.log("red 2", ChatInfo.chatId, ChatInfo);
+
+            if (senderObj.chatId === open_chat.chatId) {
+                console.log("rec msg !", senderObj);
+                setAllChatMessage((arr) => [...arr, senderObj]);
+            } else {
+                console.log("rec msg To Noti-", senderObj);
+
+                // save to msg notification
+                // 只需要 notification count +1，就行。因为 user 点开 notification 按钮，会重新从 server 里面加载所有 list notification
+                disp(rdxIncMsgNoti());
+                // const msgObj / senderObj = {
+                //     chatId: ChatInfo.chatId,
+                //     text: Msg.current,
+                //     senderId: this_user._id,
+                //     pro: this_user.pro,
+                //     time: "2022-09-01",
+                //     name: this_user.name,
+                //     chatName:
+                // };
+
+                axios.post("/addNotification", {
+                    type: "msg",
+                    _id: this_user._id,
+                    obj: senderObj,
+                });
+            }
         });
 
         return () => {
             Socket.off("delete friend");
             Socket.off("add friend");
+            Socket.off("create group");
+            Socket.off("receieve msg");
         };
-    }, []);
+    }, [open_chat, this_user]); // 注意！这里必须加进来 ChatInfo，因为，useEffect 里面，
+
+    useEffect(() => {
+        // open_chat --> { type, chatId, name, pro, _id }
+        if (open_chat.type === "" || open_chat.isOpen === false) return;
+        openChatBox(open_chat);
+    }, [open_chat]);
+
+    function clearChatInfo() {
+        setChatInfo({
+            _id: "",
+            pro: "",
+            name: "",
+            chatId: "",
+        });
+    }
+
+    function drawBkColor(chatId) {
+        if (open_chat.isOpen && chatId == open_chat.chatId) {
+            return " active";
+        } else {
+            return "";
+        }
+    }
+
+    function drawListFriend() {
+        let listFriend = this_user.friend || [];
+
+        return listFriend.map((e, idx) => {
+            return (
+                <div
+                    className={"one-person" + drawBkColor(e.chatId)}
+                    key={idx}
+                    onClick={() => {
+                        // chatType.current = "individual";
+                        // openChatBox(e);
+                        if (open_chat.isOpen && open_chat.chatId == e.chatId)
+                            return;
+
+                        let obj = {
+                            type: "individual",
+                            chatName: e.name,
+                            ...e,
+                        };
+                        // console.log("obj: ", obj);
+                        disp(rdxOpenChat(obj));
+                    }}
+                >
+                    <img src={nobody} alt="profile" />
+                    <div className="contact-name">{e.name}</div>
+                    <div
+                        className="icon"
+                        onClick={() => deleteFriend(e)}
+                        onMouseEnter={() => (preventBoxOpen.current = true)}
+                        onMouseLeave={() => (preventBoxOpen.current = false)}
+                    >
+                        <RiDeleteBin5Line className="ri" />
+                    </div>
+                </div>
+            );
+        });
+    }
+
+    function drawListGroup() {
+        let listGroup = this_user.group;
+        // console.log("l g", listGroup);
+        return listGroup.map((e, idx) => {
+            return (
+                <div
+                    className={"one-person" + drawBkColor(e.chatId)}
+                    key={idx}
+                    onClick={() => {
+                        // chatType.current = "group";
+                        // openChatBox(e);
+                        if (open_chat.isOpen && open_chat.chatId == e.chatId)
+                            return;
+
+                        let obj = { type: "group", chatName: e.name, ...e };
+                        disp(rdxOpenChat(obj));
+                    }}
+                >
+                    <img src={nobody} alt="profile" />
+                    <div className="contact-name">{e.name}</div>
+                    <div
+                        className="icon"
+                        onClick={() => leaveGroup(e.chatId)}
+                        onMouseEnter={() => (preventBoxOpen.current = true)}
+                        onMouseLeave={() => (preventBoxOpen.current = false)}
+                    >
+                        <IoExitOutline className="ri" />
+                    </div>
+                </div>
+            );
+        });
+    }
 
     function deleteFriend(friend) {
         // 双方的 friend 里面删除，并且删除 id 为 chatId 的 chat
@@ -70,35 +211,25 @@ const Contact = () => {
             .catch((e) => {});
     }
 
-    function drawListFriend() {
-        // console.log('ll1', this_user);
-
-        let listFriend = this_user.friend || [];
-
-        return listFriend.map((e, idx) => {
-            return (
-                <div
-                    className="one-person"
-                    key={idx}
-                    onClick={() => openFriendChat(e)}
-                >
-                    <img src={nobody} alt="profile" />
-                    <div className="contact-name">{e.name}</div>
-                    <div
-                        className="icon"
-                        onClick={() => deleteFriend(e)}
-                        onMouseEnter={() => (hoverDelete.current = true)}
-                        onMouseLeave={() => (hoverDelete.current = false)}
-                    >
-                        <RiDeleteBin5Line className="ri" />
-                    </div>
-                </div>
-            );
-        });
+    function leaveGroup(chatId) {
+        // chatId table 里面，删除这个 userId，user 里面，删除这个 group。
+        // 如果 chat table 里面，没有 user 了，删除这个 chat Table
+        //
+        if (!window.confirm("Sure to quit group chat?")) {
+            console.log("dont quit");
+            return;
+        }
+        axios
+            .get("/leaveGroup", { params: { _id: this_user._id, chatId } })
+            .then(({ data: chatId }) => {
+                // 在本地更新 this_user 的 redux，
+                disp(rdxLeaveGroup(chatId));
+            });
     }
 
-    function getChatHistory(chatId) {
-        console.log("len", AllChatMessage.length);
+    function getChatHistory(chatId, msgLoadAmount) {
+        if (msgLoadAmount == undefined) msgLoadAmount = initialLoadAmount;
+
         return axios.post("/getChatHistory", {
             chatId,
             curNumMsg: AllChatMessage.length,
@@ -106,35 +237,30 @@ const Contact = () => {
         });
     }
 
-    function openFriendChat(friend) {
-        // 拿到聊天数据，并且记录页数？
-        console.log("open chat", friend);
-        if (hoverDelete.current) return;
-        getChatHistory(friend.chatId).then((e) => {
-            console.log("fetch chat his", e.data);
-            setAllChatMessage(e.data);
-        });
+    function openChatBox(chatWith) {
+        if (preventBoxOpen.current) return;
         setBoxOpen(true);
 
-        let { _id, pro, name, chatId } = friend;
-        setFriend({
-            _id,
-            pro,
-            name,
-            chatId,
+        getChatHistory(chatWith.chatId).then(({ data }) => {
+            // console.log("fetch chat his", data);
+            setAllChatMessage(data);
+            if (data.length < initialLoadAmount) {
+                childRef.current.canLoadMoreMessage(false);
+            } else {
+                childRef.current.canLoadMoreMessage(true);
+            }
+            // childRef.current && childRef.current.scrollToBottom();
         });
-    }
 
-    function drawListGroup() {
-        let listGroup = this_user.group || [];
-        console.log("l g", listGroup);
+        // let obj = {};
+        // obj._id = chatWith._id;
+        // obj.name = chatWith.name;
+        // obj.chatName = chatWith.chatName;
+        // obj.chatId = chatWith.chatId;
+        // if (chatType.current === "individual") obj.pro = chatWith.pro;
+        // if (chatWith.type === "individual") obj.pro = chatWith.pro;
 
-        return listGroup.map((e, idx) => {
-            <div className="one-person" key={idx}>
-                <img src={nobody} alt="profile" />
-                <div>One Group</div>
-            </div>;
-        });
+        // setChatInfo(obj);
     }
 
     return (
@@ -143,13 +269,15 @@ const Contact = () => {
             {BoxOpen ? (
                 <ChatBox
                     {...{
+                        chatType,
                         setBoxOpen,
                         getChatHistory,
-                        Friend,
+                        // ChatInfo,
+                        // clearChatInfo,
                         AllChatMessage,
                         setAllChatMessage,
-                        msgLoadAmount,
                     }}
+                    ref={childRef}
                 />
             ) : null}
 
@@ -184,7 +312,7 @@ const Contact = () => {
                         <IoExitOutline className="ri" />
                     </div>
                 </div>
-                {drawListGroup([])}
+                {drawListGroup()}
                 <div
                     className="one-person create-group"
                     onClick={() => {

@@ -1,5 +1,5 @@
-@import '../variables.scss';
-$icon-height : 40px;
+@import "../variables.scss";
+$icon-height: 40px;
 
 @mixin grey-icon {
     display: flex;
@@ -13,7 +13,7 @@ $icon-height : 40px;
 
 @mixin hover-darker {
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -23,7 +23,7 @@ $icon-height : 40px;
     }
 }
 
-#top-nav-main{
+#top-nav-main {
     height: 56px;
     width: 100%;
     background-color: white;
@@ -33,26 +33,26 @@ $icon-height : 40px;
     align-items: center;
     gap: 10px;
 
-    .fb-logo{
+    .fb-logo {
         height: 100%;
         transform: scale(0.95);
         margin-right: -10px;
         cursor: pointer;
     }
 
-    .icon{
+    .icon {
         position: relative;
         flex-shrink: 0;
         // overflow: hidden;
         cursor: pointer;
         @include grey-icon;
 
-        &:hover{
+        &:hover {
             @include hover-darker;
         }
     }
 
-    .red-dot{
+    .red-dot {
         position: absolute;
         width: 40%;
         height: 40%;
@@ -65,18 +65,18 @@ $icon-height : 40px;
         @include centering;
     }
 
-    .messenger-icon.no-icon.pro-icon{
-       margin: 5px;
-       &:last-child{
+    .messenger-icon.no-icon.pro-icon {
+        margin: 5px;
+        &:last-child {
             margin-right: 20px;
-       }
+        }
     }
-    .search-icon{
+    .search-icon {
         position: relative;
         margin-right: auto;
         background-color: $grey-normal-lighter;
         // overflow: hidden;
-        input{
+        input {
             background-color: $grey-normal-lighter;
             width: 0;
             outline: none;
@@ -86,27 +86,27 @@ $icon-height : 40px;
         }
     }
 
-    .search-icon.active{
+    .search-icon.active {
         width: 320px;
-        .ri{
+        .ri {
             position: absolute;
             left: $icon-height / 2;
             transform: translateX(-50%);
         }
         background-color: $grey-normal-light;
-        input{
+        input {
             background-color: $grey-normal-light;
-            width: calc(100% - 1.5 * $icon-height);            
+            width: calc(100% - 1.5 * $icon-height);
             left: $icon-height;
             z-index: 0;
         }
-        &::after{
+        &::after {
             width: 0;
             height: 0;
         }
     }
 
-    .pro-icon{
+    .pro-icon {
         position: relative;
         margin-right: 20px;
         img {
@@ -115,7 +115,7 @@ $icon-height : 40px;
             object-fit: cover;
             border-radius: inherit;
         }
-        .ri{
+        .ri {
             position: absolute;
             width: 40%;
             height: 40%;
@@ -130,9 +130,9 @@ $icon-height : 40px;
 }
 
 @media screen and (min-width: 900px) {
-    #top-nav-main{
-        .search-icon{
-            input{
+    #top-nav-main {
+        .search-icon {
+            input {
                 width: calc(100% - 1.5 * $icon-height);
                 left: $icon-height;
                 z-index: 0;
