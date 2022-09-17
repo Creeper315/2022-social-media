@@ -1,6 +1,7 @@
-import '../../scss/login/login-signup.scss';
-import { FaTimes } from 'react-icons/fa';
-import { useRef } from 'react';
+import "../../scss/login/login-signup.scss";
+import { FaTimes } from "react-icons/fa";
+import { useRef } from "react";
+import ProBtn from "./proBtn";
 
 const SignupWindow = ({
     setSignUpOpen,
@@ -9,6 +10,8 @@ const SignupWindow = ({
     firstName,
     lastName,
     onRegister,
+    setChosenPro,
+    ChosenPro,
 }) => {
     return (
         <div id="sign-up-window">
@@ -43,6 +46,11 @@ const SignupWindow = ({
                         onChange={(e) => (password.current = e.target.value)}
                     />
                 </div>
+                {/* <div className="choose-pro btn btn-info">
+                    Choose Your Profile Icon
+                </div> */}
+                {<ProBtn {...{ setChosenPro, ChosenPro }} />}
+
                 <button className="button" onClick={onRegister}>
                     Sign Up
                 </button>

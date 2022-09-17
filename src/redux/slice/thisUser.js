@@ -19,6 +19,7 @@ export const userSlice = createSlice({
                 _id,
                 email,
                 name,
+                firstName,
                 pro,
                 friend,
                 group,
@@ -30,6 +31,7 @@ export const userSlice = createSlice({
             if (_id != undefined) state._id = _id;
             if (email != undefined) state.email = email;
             if (name != undefined) state.name = name;
+            if (firstName != undefined) state.firstName = firstName;
             if (pro != undefined) state.pro = pro;
             if (feed != undefined) state.feed = feed;
             if (friend != undefined) state.friend = friend;
@@ -55,17 +57,25 @@ export const userSlice = createSlice({
             let chatId = action.payload;
             state.group = state.group.filter((e) => e.chatId != chatId);
         },
-        rdxIncMsgNoti: (state) => {
-            state.msgNotificationCount++;
+        rdxIncMsgNoti: (state, action) => {
+            let count = action.payload;
+            if (!count) count = 1;
+            state.msgNotificationCount += count;
         },
-        rdxIncFriendNoti: (state) => {
-            state.friendNotificationCount++;
+        rdxIncFriendNoti: (state, action) => {
+            let count = action.payload;
+            if (!count) count = 1;
+            state.friendNotificationCount += count;
         },
-        rdxDecMsgNoti: (state) => {
-            state.msgNotificationCount--;
+        rdxDecMsgNoti: (state, action) => {
+            let count = action.payload;
+            if (!count) count = 1;
+            state.msgNotificationCount -= count;
         },
-        rdxDecFriendNoti: (state) => {
-            state.friendNotificationCount--;
+        rdxDecFriendNoti: (state, action) => {
+            let count = action.payload;
+            if (!count) count = 1;
+            state.friendNotificationCount -= count;
         },
     },
 });

@@ -1,7 +1,7 @@
 import "../../scss/topNav/top-nav-main.scss";
 import "../../scss/topNav/notification.scss";
 
-import profile_default from "../../img/profile.jpeg";
+import profile_default from "../../img/pro0.jpeg";
 import SearchMenu from "./searchMenu";
 import { BsSearch } from "react-icons/bs";
 import { BsMessenger } from "react-icons/bs";
@@ -10,21 +10,71 @@ import { BiChevronDown } from "react-icons/bi";
 import Notification from "./notification";
 
 import axios from "axios";
-import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useRef, useState, useEffect, useContext } from "react";
+import { SocketContext } from "../../Socket/socketContext";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { rdxIncFriendNoti } from "../../redux/slice/thisUser";
 
 const TopNavMain = () => {
     const this_user = useSelector((s) => s.user);
+    const disp = useDispatch();
     const navi = useNavigate();
+    const { Socket } = useContext(SocketContext);
     const [ListUserFound, setListUserFound] = useState([]);
     const inputRef = useRef(null);
     const withinSearch = useRef(false);
     const [ShowSearchMenu, setShowSearchMenu] = useState(false);
     const [ShowNotification, setShowNotification] = useState(false);
+    const [ShowLogOut, setShowLogOut] = useState(false);
     const notificationType = useRef("");
 
-    // useEffect(() => {}, [this_user._id]);
+    useEffect(() => {
+        Socket.on("friend request", () => {
+            disp(rdxIncFriendNoti());
+        });
+        return () => {
+            Socket.off("friend request");
+        };
+    }, []);
+
+    function clearInput() {
+        inputRef.current.value = "";
+        setListUserFound([]);
+        setShowSearchMenu(false);
+    }
+
+    function clickAdd(e, requestMsg) {
+        // send friend request
+        // Socket, inc friend noti
+
+        // 对方：同意： post /addFriiend , delete friend noti
+        // 拒绝： delete friend noti
+
+        // console.log("clicked add, sending request", e);
+        function filter(obj) {
+            return { name: obj.name, pro: obj.pro, _id: obj._id };
+        }
+
+        if (requestMsg == undefined)
+            requestMsg = `I'm ${this_user.name}, nice to meet you`;
+        console.log("click ad", requestMsg);
+        axios
+            .post("/friendRequest", {
+                requester: filter(this_user),
+                receiver: filter(e),
+                requestMsg,
+            })
+            .then(({ data: isNewRequest }) => {
+                if (!isNewRequest) return;
+                Socket.emit("friend request", e._id); // 通知这个 _id 的 user，increament 他的 friend notification
+            });
+    }
+
+    function filterFound(listUser) {
+        let s = new Set(this_user.friend.map((e) => e._id));
+        return listUser.filter((e) => !s.has(e._id) && e._id !== this_user._id);
+    }
 
     function onText(e) {
         let text = e.target.value;
@@ -38,9 +88,10 @@ const TopNavMain = () => {
             method: "get",
             url: "/getUserByName",
             params: { text },
-        }).then((e) => {
-            // console.log('search', e.data);
-            setListUserFound(e.data);
+        }).then(({ data }) => {
+            data = filterFound(data);
+
+            setListUserFound(data);
         });
     }
 
@@ -50,12 +101,15 @@ const TopNavMain = () => {
     }
 
     function logout() {
+        let out = window.confirm("Sure To Logout ?");
+        if (!out) return;
         axios({ method: "get", url: "/logout" }).then(() => {
             navi("/");
         });
     }
     return (
         <div id="top-nav-main">
+            {/* {ShowLogOut && <div className="log-out"></div>} */}
             {ShowNotification && (
                 <Notification {...{ notificationType, setShowNotification }} />
             )}
@@ -76,12 +130,18 @@ const TopNavMain = () => {
             >
                 {ShowSearchMenu && (
                     <SearchMenu
-                        {...{ ListUserFound, setListUserFound, withinSearch }}
+                        {...{
+                            ListUserFound,
+                            setListUserFound,
+                            withinSearch,
+                            clickAdd,
+                            clearInput,
+                        }}
                     />
                 )}
                 <BsSearch className="ri" />
                 <input
-                    placeholder="Search Friends"
+                    placeholder="Search New Friends"
                     onChange={onText}
                     ref={inputRef}
                     onBlur={() => {
@@ -112,7 +172,7 @@ const TopNavMain = () => {
                 <FaBell className="ri" />
             </div>
             <div className="icon pro-icon" onClick={logout}>
-                <img src={profile_default} alt="profile" />
+                <img src={this_user.pro} alt="profile" />
                 <BiChevronDown className="ri" />
             </div>
         </div>

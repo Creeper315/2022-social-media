@@ -1,22 +1,22 @@
-import axios from 'axios';
-import '../../scss/login/login.scss';
+import axios from "axios";
+import "../../scss/login/login.scss";
 
-import LoginLeft from './Left/loginLeft';
-import LoginRight from './loginRight';
-import SignupWindow from './signUpWindow';
+import LoginLeft from "./Left/loginLeft";
+import LoginRight from "./loginRight";
+import SignupWindow from "./signUpWindow";
 
 import {
     auth,
     google_provider,
     facebook_provider,
-} from '../../firebase-config';
-import { signInWithPopup } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+} from "../../firebase-config";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-} from 'firebase/auth';
+} from "firebase/auth";
 
 const qwe = console.log.bind(console.log);
 
@@ -24,15 +24,16 @@ const LoginMain = () => {
     let navi = useNavigate();
     const [LoggedIn, setLoggedIn] = useState(false);
     const [SignUpOpen, setSignUpOpen] = useState(false);
-    const email = useRef('');
-    const password = useRef('');
-    const firstName = useRef('');
-    const lastName = useRef('');
+    const email = useRef("");
+    const password = useRef("");
+    const firstName = useRef("");
+    const lastName = useRef("");
+    const [ChosenPro, setChosenPro] = useState(null);
 
     useEffect(() => {
         axios({
-            method: 'get',
-            url: '/checkLogin',
+            method: "get",
+            url: "/checkLogin",
         }).then((e) => {
             // console.log(e);
             if (e.data !== false) {
@@ -43,33 +44,62 @@ const LoginMain = () => {
 
     function toMain(email) {
         // console.log('has email', email);
-        navi('/main', { state: email });
+        navi("/main", { state: email });
+    }
+
+    function registerValidate() {
+        let s1 = firstName.current;
+        let s2 = lastName.current;
+        let s3 = email.current;
+
+        s1 = s1.trim();
+        if (s1.length === 0) return false;
+        s1 = s1.charAt(0).toUpperCase() + s1.slice(1);
+        s2 = s2.trim();
+        if (s2.length === 0) return false;
+        s2 = s2.charAt(0).toUpperCase() + s2.slice(1);
+        s3 = s3.trim();
+        if (s3.length === 0) return false;
+        s3 = s3.charAt(0).toUpperCase() + s3.slice(1);
+
+        firstName.current = s1;
+        lastName.current = s2;
+        email.current = s3;
+
+        if (ChosenPro == null) return false;
+        return true;
     }
 
     function onRegister() {
+        let valid = registerValidate();
+        if (!valid) {
+            alert("plase enter all fields, and chose a profile icon :)");
+            return;
+        }
         axios({
-            method: 'post',
-            url: '/register',
+            method: "post",
+            url: "/register",
             data: {
                 email: email.current,
                 password: password.current,
                 firstName: firstName.current,
                 lastName: lastName.current,
+                pro: ChosenPro,
             },
         })
             .then((e) => {
-                qwe('register good', e);
+                // qwe("register good", e);
                 toMain(e.data);
             })
             .catch((e) => {
-                qwe('regi unsuccessful', e.response);
+                qwe("regi unsuccessful", e.response);
             });
     }
 
     function onLogin() {
         axios({
-            method: 'post',
-            url: '/login',
+            method: "post",
+            url: "/login",
             data: {
                 email: email.current,
                 password: password.current,
@@ -80,55 +110,9 @@ const LoginMain = () => {
                 toMain(e.data);
             })
             .catch((e) => {
-                qwe('login not good', e.response);
+                qwe("login not good", e.response);
             });
     }
-
-    //     function google_signin() {
-    //         signInWithPopup(auth, google_provider).then((e) => {
-    //             console.log('res', e);
-    //             // window.eee = e;
-    //             let email = e.user.email;
-    //             let name = e.user.displayName;
-    //             let profile = e.user.photoURL;
-
-    //             // localStorage.setItem('isAuth', true);
-    //             // setIsAuth(true);
-    //             navi('/', { state: { ...{ email, name, profile } } });
-    //         });
-    //         return;
-    //     }
-    //     function facebook_signin() {
-    //         signInWithPopup(auth, facebook_provider).then((e) => {
-    //             console.log('fb res', e);
-    //             window.eee = e;
-    //             let email = e.user.email;
-    //             let name = e.user.displayName;
-    //             let profile = e.user.photoURL;
-
-    //             // localStorage.setItem('isAuth', true);
-    //             // setIsAuth(true);
-    //             // navi('/', { state: { ...{ email, name, profile } } });
-    //         });
-    //         return;
-    //     }
-
-    //     function onRegister() {
-    //         createUserWithEmailAndPassword(auth, email.current, password.current)
-    //             .then((userCredential) => {
-    //                 console.log(userCredential);
-    //             })
-    //             .catch((e) => console.log('register err', e));
-    //     }
-
-    //     function onLogin() {
-    //         signInWithEmailAndPassword(auth, email.current, password.current)
-    //             .then((userCredential) => {
-    //                 console.log('sign in good', userCredential);
-    //                 navi('/main', { state: { ...{ email } } });
-    //             })
-    //             .catch((e) => console.log('login err', e));
-    //     }
 
     return (
         <div id="login-main">
@@ -141,6 +125,8 @@ const LoginMain = () => {
                         firstName,
                         lastName,
                         onRegister,
+                        setChosenPro,
+                        ChosenPro,
                     }}
                 />
             ) : null}

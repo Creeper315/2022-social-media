@@ -1,34 +1,84 @@
 import "../../scss/topNav/search-menu.scss";
 import { IoClose } from "react-icons/io5";
 import { HiUserAdd } from "react-icons/hi";
-import iii from "../../img/profile.jpeg";
+import iii from "../../img/pro0.jpeg";
 import axios from "axios";
 
-import { useSelector, useDispatch } from "react-redux";
-import { rdxAddFriend } from "../../redux/slice/thisUser";
-import { useContext, useEffect } from "react";
-import { SocketContext } from "../../Socket/socketContext";
-// import { addFriend } from "../../redux/slice/thisUser";
+import { useSelector } from "react-redux";
+import { useRef, useState } from "react";
+import {
+    Modal,
+    ModalBody,
+    ModalHeader,
+    ModalFooter,
+    Button,
+    Input,
+} from "reactstrap";
+// import { useContext } from "react";
+// import { SocketContext } from "../../Socket/socketContext";
 
-const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
-    const disp = useDispatch();
-    const { Socket } = useContext(SocketContext);
+const SearchMenu = ({
+    ListUserFound,
+    // setListUserFound,
+    withinSearch,
+    clickAdd,
+    clearInput,
+}) => {
     const this_user = useSelector((s) => s.user);
-    useEffect(() => {
-        // Socket.on("add friend", ());
-    }, []);
-
+    const [ModalOpen, setModalOpen] = useState(false);
+    const requestMsg = useRef("");
+    const clickedObj = useRef({});
     // console.log('ooo', ListUserFound);
+
+    function onclick(e) {
+        // console.log("ock", e);
+        clickedObj.current = e;
+        setModalOpen(true);
+    }
+
+    function yes() {
+        clickAdd(clickedObj.current, requestMsg.current);
+        no();
+    }
+
+    function no() {
+        setModalOpen(false);
+        requestMsg.current = "";
+        clearInput();
+    }
+
+    function drawModal() {
+        return (
+            <Modal isOpen={ModalOpen}>
+                <ModalHeader toggle={() => setModalOpen(false)}>
+                    Send Friend Request...
+                </ModalHeader>
+                <ModalBody>
+                    <Input
+                        placeholder="request message:"
+                        onChange={(e) => {
+                            requestMsg.current = e.target.value;
+                        }}
+                    />
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={no}>Cancel</Button>
+                    <Button onClick={yes}>Send</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
+
     function displayPeople() {
         return ListUserFound.map((e, idx) => {
             return (
                 <div className="one-row" key={idx}>
                     <img src={iii} alt="profile" />
                     <div className="name">{e.name}</div>
-                    <div className="icon" onClick={() => addFriend(e)}>
+                    <div className="icon" onClick={() => onclick(e)}>
                         <HiUserAdd className="ri" />
                     </div>
-                    <div className="icon" onClick={() => removeRow(idx)}>
+                    <div className="icon">
                         <IoClose className="ri" />
                     </div>
                 </div>
@@ -36,40 +86,12 @@ const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
         });
     }
 
-    function addFriend(e) {
-        console.log("other", e);
-        axios
-            .post("/addFriend", {
-                self: this_user,
-                other: e,
-            })
-            .then((e) => {
-                let chatId = e.data.chatId;
-                let other = e.data.other;
-                let { _id, name, pro } = this_user;
-                // console.log("? ", this_user, other);
-                Socket.emit("add friend", other._id, {
-                    _id,
-                    name,
-                    pro,
-                    chatId,
-                });
-                disp(rdxAddFriend({ ...other, chatId }));
-            });
-    }
-
-    function removeRow(idx) {
-        // console.log('rm', ListUserFound, idx);
-        // ListUserFound.splice(idx, 1);
-        // console.log('rm2', ListUserFound, idx);
-        // setListUserFound(ListUserFound);
-    }
-
-    // const disp = useDispatch();
-
-    // function set() {
-    //     disp(initUser({ name: 'new name!' }));
-    // }
+    // const friendNotification = new mongoose.Schema({
+    //     friendId: { type: mongoose.ObjectId, required: true }, // friend Id
+    //     pro: String,
+    //     name: String,
+    //     requestMsg: String,
+    // });
 
     return (
         <div
@@ -77,10 +99,8 @@ const SearchMenu = ({ ListUserFound, setListUserFound, withinSearch }) => {
             onMouseOver={() => (withinSearch.current = true)}
             onMouseLeave={() => (withinSearch.current = false)}
         >
-            {/* <p>{JSON.stringify(this_user)}</p>
-            <button onClick={set}>set</button> */}
-
-            <div>Searches .... </div>
+            {drawModal()}
+            <div> Results .... </div>
             {displayPeople()}
             {/* <div className="one-row">
                 <img src={iii} alt="profile" />

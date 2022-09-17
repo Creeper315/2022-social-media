@@ -1,20 +1,20 @@
-import '../../scss/leftBar/leftBarShrink.scss';
+import "../../scss/leftBar/leftBarShrink.scss";
 
-import profile from '../../img/profile.jpeg';
-import icecream from '../../img/icecream.jpg';
-import milk from '../../img/milk.jpg';
+import profile from "../../img/pro0.jpeg";
+import icecream from "../../img/icecream.jpg";
+import milk from "../../img/milk.jpg";
 
-import RectIcon from './rectIcon';
-import RoundIcon from './roundIcon';
+import RectIcon from "./rectIcon";
+import RoundIcon from "./roundIcon";
 
-import { FaHouseUser } from 'react-icons/fa';
-import { CgMenuGridO } from 'react-icons/cg';
-import { MdGroups } from 'react-icons/md';
-import { BsLink45Deg } from 'react-icons/bs';
+import { FaHouseUser } from "react-icons/fa";
+import { CgMenuGridO } from "react-icons/cg";
+import { MdGroups } from "react-icons/md";
+import { BsLink45Deg } from "react-icons/bs";
 
-const i1 = 'https://static.xx.fbcdn.net/rsrc.php/v3/y-/r/FhOLTyUFKwf.png';
-const i2 = 'https://static.xx.fbcdn.net/rsrc.php/v3/y4/r/MN44Sm-CTHN.png';
-const i3 = 'https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/Cx_zTHRcUJ0.png';
+const i1 = "https://static.xx.fbcdn.net/rsrc.php/v3/y-/r/FhOLTyUFKwf.png";
+const i2 = "https://static.xx.fbcdn.net/rsrc.php/v3/y4/r/MN44Sm-CTHN.png";
+const i3 = "https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/Cx_zTHRcUJ0.png";
 
 const LeftBarShrink = () => {
     return (

@@ -10,6 +10,8 @@ import AddGroupBox from "./addGroupBox";
 
 import axios from "axios";
 
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+
 import { useState, useRef, useContext, useEffect } from "react";
 import { SocketContext } from "../../../Socket/socketContext";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,19 +31,17 @@ const Contact = () => {
     const disp = useDispatch();
     const this_user = useSelector((s) => s.user);
     const open_chat = useSelector((s) => s.chat);
-    // const [Refresh, setRefresh] = useState(0);
 
     const preventBoxOpen = useRef(false);
     const chatType = useRef(""); // one of: group / individual
     const [BoxOpen, setBoxOpen] = useState(false);
     const [AddGroupOpen, setAddGroupOpen] = useState(false);
     const [AllChatMessage, setAllChatMessage] = useState([]);
-    const [ChatInfo, setChatInfo] = useState({
-        _id: "",
-        pro: "",
-        name: "",
-        chatId: "",
-    });
+    const [ModalOpen, setModalOpen] = useState(false);
+    const modelText = useRef("");
+    const yesFun = useRef();
+    const noFun = useRef();
+
     const childRef = useRef();
 
     useEffect(() => {
@@ -64,14 +64,15 @@ const Contact = () => {
             // console.log("red 2", ChatInfo.chatId, ChatInfo);
 
             if (senderObj.chatId === open_chat.chatId) {
-                console.log("rec msg !", senderObj);
+                // console.log("rec msg !", senderObj);
                 setAllChatMessage((arr) => [...arr, senderObj]);
             } else {
-                console.log("rec msg To Noti-", senderObj);
+                // console.log("rec msg To Noti-", senderObj);
 
                 // save to msg notification
                 // 只需要 notification count +1，就行。因为 user 点开 notification 按钮，会重新从 server 里面加载所有 list notification
                 disp(rdxIncMsgNoti());
+
                 // const msgObj / senderObj = {
                 //     chatId: ChatInfo.chatId,
                 //     text: Msg.current,
@@ -100,18 +101,9 @@ const Contact = () => {
 
     useEffect(() => {
         // open_chat --> { type, chatId, name, pro, _id }
-        if (open_chat.type === "" || open_chat.isOpen === false) return;
+        if (open_chat.isOpen === false) return;
         openChatBox(open_chat);
     }, [open_chat]);
-
-    function clearChatInfo() {
-        setChatInfo({
-            _id: "",
-            pro: "",
-            name: "",
-            chatId: "",
-        });
-    }
 
     function drawBkColor(chatId) {
         if (open_chat.isOpen && chatId == open_chat.chatId) {
@@ -134,13 +126,14 @@ const Contact = () => {
                         // openChatBox(e);
                         if (open_chat.isOpen && open_chat.chatId == e.chatId)
                             return;
+                        if (preventBoxOpen.current) return;
 
                         let obj = {
                             type: "individual",
                             chatName: e.name,
                             ...e,
                         };
-                        // console.log("obj: ", obj);
+                        // console.log("click friend obj: ", obj);
                         disp(rdxOpenChat(obj));
                     }}
                 >
@@ -148,7 +141,7 @@ const Contact = () => {
                     <div className="contact-name">{e.name}</div>
                     <div
                         className="icon"
-                        onClick={() => deleteFriend(e)}
+                        onClick={() => clickDelete(e)}
                         onMouseEnter={() => (preventBoxOpen.current = true)}
                         onMouseLeave={() => (preventBoxOpen.current = false)}
                     >
@@ -172,6 +165,7 @@ const Contact = () => {
                         // openChatBox(e);
                         if (open_chat.isOpen && open_chat.chatId == e.chatId)
                             return;
+                        if (preventBoxOpen.current) return;
 
                         let obj = { type: "group", chatName: e.name, ...e };
                         disp(rdxOpenChat(obj));
@@ -181,7 +175,7 @@ const Contact = () => {
                     <div className="contact-name">{e.name}</div>
                     <div
                         className="icon"
-                        onClick={() => leaveGroup(e.chatId)}
+                        onClick={() => clickLeave(e.chatId)}
                         onMouseEnter={() => (preventBoxOpen.current = true)}
                         onMouseLeave={() => (preventBoxOpen.current = false)}
                     >
@@ -251,20 +245,43 @@ const Contact = () => {
             }
             // childRef.current && childRef.current.scrollToBottom();
         });
+    }
 
-        // let obj = {};
-        // obj._id = chatWith._id;
-        // obj.name = chatWith.name;
-        // obj.chatName = chatWith.chatName;
-        // obj.chatId = chatWith.chatId;
-        // if (chatType.current === "individual") obj.pro = chatWith.pro;
-        // if (chatWith.type === "individual") obj.pro = chatWith.pro;
+    function drawModal() {
+        return (
+            <Modal isOpen={ModalOpen}>
+                <ModalHeader toggle={() => setModalOpen(false)}></ModalHeader>
+                <ModalBody>{modelText.current}</ModalBody>
+                <ModalFooter>
+                    <Button onClick={noFun.current}>No</Button>
+                    <Button onClick={yesFun.current}>Yes</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
 
-        // setChatInfo(obj);
+    function clickDelete(e) {
+        setModalOpen(true);
+        modelText.current = "Delete This Friend from List?";
+        yesFun.current = () => {
+            deleteFriend(e);
+            setModalOpen(false);
+        };
+        noFun.current = () => setModalOpen(false);
+    }
+    function clickLeave(chatId) {
+        setModalOpen(true);
+        modelText.current = "Leave this Group ?";
+        yesFun.current = () => {
+            leaveGroup(chatId);
+            setModalOpen(false);
+        };
+        noFun.current = () => setModalOpen(false);
     }
 
     return (
         <div id="body-right-contact">
+            {drawModal()}
             {AddGroupOpen ? <AddGroupBox {...{ setAddGroupOpen }} /> : null}
             {BoxOpen ? (
                 <ChatBox
@@ -294,24 +311,24 @@ const Contact = () => {
                 </div>
             </div>
             <div className="list-contact">
-                <div className="one-person">
+                {/* <div className="one-person">
                     <img src={nobody} alt="profile" />
                     <div className="contact-name">Name Here!</div>
                     <div className="icon">
                         <RiDeleteBin5Line className="ri" />
                     </div>
-                </div>
+                </div> */}
                 {drawListFriend()}
             </div>
             <div className="title">Group Conversations</div>
             <div className="list-contact">
-                <div className="one-person" onClick={() => setBoxOpen(true)}>
+                {/* <div className="one-person" onClick={() => setBoxOpen(true)}>
                     <img src={nobody} alt="profile" />
                     <div className="contact-name">Name Here!</div>
                     <div className="icon">
                         <IoExitOutline className="ri" />
                     </div>
-                </div>
+                </div> */}
                 {drawListGroup()}
                 <div
                     className="one-person create-group"

@@ -44,10 +44,12 @@ const FeedMain = () => {
 
     return (
         <div id="feed-main">
-            {ShowModal && <AddPostModal {...{ setShowModal }} />}
-            <button onClick={reloadFeed}>Reload feed</button>
+            {ShowModal && <AddPostModal {...{ setShowModal, reloadFeed }} />}
+            <button onClick={reloadFeed} className="reload-feed">
+                Reload feed
+            </button>
             <TextArea {...{ setShowModal }} />
-            <OneFeed />
+            {/* <OneFeed /> */}
             {drawFeed()}
         </div>
     );

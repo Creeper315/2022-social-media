@@ -16,9 +16,18 @@ $feed-radius: 7px;
 
     display: flex;
     flex-direction: column;
-
     @include textArea;
     @include oneFeed;
+
+    .reload-feed {
+        border: none;
+        height: 30px;
+        background-color: $grey-normal-light;
+        border-radius: 30px;
+        @include shadow-light;
+        margin: 5px 10px;
+        @include hover-effect($grey-normal-lighter);
+    }
 
     #add-post-background {
         position: fixed;
@@ -60,7 +69,7 @@ $feed-radius: 7px;
                 height: 110px;
                 outline: none;
                 font-size: 25px;
-                @include red;
+                // @include red;
             }
             button {
                 border: none;

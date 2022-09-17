@@ -32,7 +32,7 @@ $icon-height: 40px;
     display: flex;
     align-items: center;
     gap: 10px;
-
+    z-index: 2; // 这样的话，top nav 的阴影就不会和 feed 冲突了
     .fb-logo {
         height: 100%;
         transform: scale(0.95);

@@ -5,7 +5,7 @@ import { useRef, useState, useContext } from "react";
 import { SocketContext } from "../../Socket/socketContext";
 import { useSelector } from "react-redux";
 
-const AddPostModal = ({ setShowModal }) => {
+const AddPostModal = ({ setShowModal, reloadFeed }) => {
     const { Socket } = useContext(SocketContext);
     const [text, settext] = useState("");
     const btnRef = useRef();
@@ -30,7 +30,7 @@ const AddPostModal = ({ setShowModal }) => {
             })
             .then(({ data }) => {
                 console.log("post then", data);
-
+                reloadFeed();
                 settext("");
                 setShowModal(false);
             });
@@ -48,7 +48,7 @@ const AddPostModal = ({ setShowModal }) => {
                     <IoMdClose className="ri" />
                 </div>
                 <textarea
-                    placeholder="What's on your mind?"
+                    placeholder={"What's on your mind? " + this_user.firstName}
                     onChange={(e) => {
                         let str = e.target.value;
                         str = str.trim();

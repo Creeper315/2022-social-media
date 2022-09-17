@@ -1,15 +1,17 @@
 import { ImVideoCamera } from "react-icons/im";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { FaRegLaugh } from "react-icons/fa";
-import profile from "../../img/profile.jpeg";
+import profile from "../../img/pro0.jpeg";
+import { useSelector } from "react-redux";
 
 const TextArea = ({ setShowModal }) => {
+    const this_user = useSelector((s) => s.user);
     return (
         <div id="text-area">
             <div id="upper">
                 <img src={profile} alt="profile" />
                 <input
-                    placeholder="What's on your mind? Richard"
+                    placeholder={"What's on your mind? " + this_user.firstName}
                     onClick={() => {
                         setShowModal(true);
                     }}

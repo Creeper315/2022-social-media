@@ -21,30 +21,26 @@ import {
 } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { rdxDecMsgNoti, initUser } from "../../../redux/slice/thisUser";
 import { rdxCloseChat } from "../../../redux/slice/openChat";
+import { rdxSetMsgNoti } from "../../../redux/slice/notification";
 import { SocketContext } from "../../../Socket/socketContext";
 export const initialLoadAmount = 10;
 export const additionLoadAmount = 2;
 
 const ChatBox = forwardRef(
     (
-        {
-            // chatType,
-            setBoxOpen,
-            getChatHistory,
-            // ChatInfo,
-            // clearChatInfo,
-            AllChatMessage,
-            setAllChatMessage,
-        },
+        { setBoxOpen, getChatHistory, AllChatMessage, setAllChatMessage },
         ref
     ) => {
         const this_user = useSelector((e) => e.user);
         const open_chat = useSelector((e) => e.chat);
+        // const notification = useSelector((e) => e.noti);
         const disp = useDispatch();
         const scrollDiv = useRef();
         const prevScrollHeight = useRef(null);
-        const Msg = useRef("");
+        // const Msg = useRef("");
+        const [Msg, setMsg] = useState("");
         const recordTopChatId = useRef("");
         const loadMsg1 = "⏏️ Load More";
         const loadMsg2 = "-- No More Messages --";
@@ -53,8 +49,10 @@ const ChatBox = forwardRef(
         const { Socket } = useContext(SocketContext);
 
         useEffect(() => {
+            // load all msg notification
+            getNotification();
             return () => {
-                // clearChatInfo();
+                // console.log("chat box unmount");
                 disp(rdxCloseChat());
                 setAllChatMessage([]); // 这样，关掉聊天窗的时候，message array 就是 []
             };
@@ -121,17 +119,51 @@ const ChatBox = forwardRef(
 
         // function up
 
+        function getNotification() {
+            // 打开聊天框，重新加载 msg notification,
+            // 重新在 redux 里设定 msgNotification, 重新设定 msg noti count
+            // 如果当前 chatId 在 msg notification 里出现，就删除掉这个 notification,
+            // ， 同时 axios 删除 notification，redux 里减少 msg noti count
+            axios
+                .get("/getNotification", {
+                    params: { _id: this_user._id, type: "msg" },
+                })
+                .then(({ data }) => {
+                    // console.log("noti get", data);
+                    if (data == undefined) return;
+
+                    disp(rdxSetMsgNoti(data));
+                    let sumCount = data.reduce((a, b) => a + b.count, 0);
+                    disp(initUser({ msgNotificationCount: sumCount }));
+                    return data;
+                })
+                .then((listMsgNoti) => {
+                    for (let noti of listMsgNoti) {
+                        if (noti.chatId == open_chat.chatId) {
+                            axios.post("/deleteNotification", {
+                                _id: this_user._id,
+                                type: "msg",
+                                chatId: open_chat.chatId,
+                            });
+                            disp(rdxDecMsgNoti(noti.count));
+                            break;
+                        }
+                    }
+                });
+        }
+
         function sendMsg() {
             // 首先用 socket 发送出去，然后自己再储存到 MongoDB 的 chatid 里面。
             // 不管对方的 socket 有没有收到，都要储存 MongoDB，因为如果对方没有打开 chat Window，就收不到咱们的消息。
-            if (Msg.current.trim() === "") {
+            if (Msg.trim() === "") {
                 alert("msg is empty");
+
                 return;
             }
 
             const msgObj = {
                 chatId: open_chat.chatId,
-                text: Msg.current,
+                text: Msg,
                 senderId: this_user._id,
                 pro: this_user.pro,
                 time: "2022-09-01",
@@ -145,7 +177,7 @@ const ChatBox = forwardRef(
                 .then((e) => {
                     Socket.emit("send msg", msgObj);
                 });
-            Msg.current = "";
+            setMsg("");
         }
 
         function onScroll() {
@@ -189,7 +221,6 @@ const ChatBox = forwardRef(
         }));
 
         function getTopIcon() {
-            if (open_chat.type === "group") return nobody;
             return open_chat.pro;
         }
 
@@ -253,8 +284,10 @@ const ChatBox = forwardRef(
                         <input
                             placeholder="Aa"
                             onChange={(e) => {
-                                Msg.current = e.target.value;
+                                // Msg.current = e.target.value;
+                                setMsg(e.target.value);
                             }}
+                            value={Msg}
                             onKeyDownCapture={(e) => {
                                 if (e.key === "Enter") sendMsg();
                             }}

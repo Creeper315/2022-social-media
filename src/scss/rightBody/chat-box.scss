@@ -52,7 +52,7 @@ $box-height: 455px;
             }
         }
         .chat-history {
-            @include red;
+            // @include red;
             position: relative;
             height: 100%;
             width: inherit;
@@ -68,7 +68,9 @@ $box-height: 455px;
                 // @include red;
                 height: 20px;
                 grid-column: 1 / -1;
-                text-align: center;
+                @include centering;
+                font-size: small;
+                color: $grey-normal;
             }
 
             .message {
@@ -96,19 +98,32 @@ $box-height: 455px;
             .message.from-other {
                 // 别人
                 grid-column: 1 / span 3;
+                margin-top: 8px;
                 img {
                     @include round($icon-size);
                     object-fit: cover;
                     margin: 0 5px;
                 }
-                .msg-content {
-                    margin-left: 0;
-                    overflow-wrap: break-word;
-                    background-color: $grey-normal-light;
-                    color: black;
-                    border-radius: 10px;
-                    border-top-right-radius: 15px;
-                    border-bottom-right-radius: 15px;
+                .msg-contain {
+                    display: flex;
+                    flex-direction: column;
+                    span {
+                        color: $grey-normal;
+                        line-height: 11px;
+                        z-index: 1;
+                        font-size: small;
+                        font-family: $font-2;
+                        text-indent: 4px;
+                    }
+                    .msg-content {
+                        margin-left: 0;
+                        overflow-wrap: break-word;
+                        background-color: $grey-normal-light;
+                        color: black;
+                        border-radius: 10px;
+                        border-top-right-radius: 15px;
+                        border-bottom-right-radius: 15px;
+                    }
                 }
             }
         }

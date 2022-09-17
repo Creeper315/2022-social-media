@@ -1,11 +1,11 @@
-import profile_img from '../../../img/profile.jpeg';
+import profile_img from "../../../img/pro0.jpeg";
 
 const Card = () => {
     return (
         <div className="card">
             <div>
                 <img
-                    style={{ objectFit: 'cover', gridRow: 1 }}
+                    style={{ objectFit: "cover", gridRow: 1 }}
                     src={profile_img}
                     alt="profile"
                 />

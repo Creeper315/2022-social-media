@@ -125,7 +125,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
             <div className="line-2">
                 <div className="to">To:</div>
                 <div className="name-contain">
-                    <div className="one-name">
+                    {/* <div className="one-name">
                         <div>hogn noww kajbsfkabkbf kabfkjab </div>
                         <div className="icon">
                             <IoMdClose className="ri" />
@@ -136,7 +136,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
                         <div className="icon">
                             <IoMdClose className="ri" />
                         </div>
-                    </div>
+                    </div> */}
                     {drawSelectedFriends()}
 
                     <input placeholder="search" onChange={onTypeText} />
@@ -146,7 +146,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
                 <div>Suggested:</div>
                 <div></div>
             </div>
-            <div className="line-4">
+            {/* <div className="line-4">
                 <div className="icon">
                     <img src={nobody} alt="img" />
                 </div>
@@ -157,7 +157,7 @@ const AddGroupBox = ({ setAddGroupOpen }) => {
                     <img src={nobody} alt="img" />
                 </div>
                 <div>Name here2</div>
-            </div>
+            </div> */}
             {drawFoundFriends()}
         </div>
     );
